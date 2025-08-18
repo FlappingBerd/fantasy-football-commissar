@@ -1,13 +1,21 @@
 /**
  * Sleeper → Weekly Payload for Claude
  * Usage:
- *   node fetch_sleeper_week.js --league <LEAGUE_ID> --riky Kodiak --levi leevus
+ *   node fetch_sleeper_week.js --league <LEAGUE_ID>
  *
  * Env alternative:
  *   SLEEPER_LEAGUE_ID=123 node fetch_sleeper_week.js
  *
  * Output: JSON on stdout shaped for your Claude prompt.
  */
+
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Get __dirname equivalent for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const SLEEPER = "https://api.sleeper.app/v1";
 
@@ -27,8 +35,7 @@ if (!LEAGUE_ID) {
   process.exit(1);
 }
 
-const RIKY_HINT = (args.riky || process.env.RIKY_HINT || "Kodiak").toString();
-const LEVI_HINT = (args.levi || process.env.LEVI_HINT || "leevus").toString();
+// Removed special-mention hint arguments to ensure balanced coverage
 
 // ---- Helpers ---------------------------------------------------------------
 async function j(url) {
@@ -42,16 +49,7 @@ function handleFromUser(u) {
   return `@${name}`;
 }
 
-function findHandleByHint(users, hint) {
-  const h = hint.toLowerCase();
-  const u = users.find(
-    (u) =>
-      (u.display_name && u.display_name.toLowerCase().includes(h)) ||
-      (u.username && u.username.toLowerCase().includes(h)) ||
-      (u.metadata?.team_name && u.metadata.team_name.toLowerCase().includes(h))
-  );
-  return u ? handleFromUser(u) : `@${hint}`;
-}
+// Removed hint-based handle lookup (no special mentions)
 
 function toFixed(n, d = 1) {
   return Number.isFinite(n) ? Number(n.toFixed(d)) : n;
@@ -60,20 +58,7 @@ function toFixed(n, d = 1) {
 // Name mapping for personalized recaps
 function getRealName(handle) {
   const nameMap = {
-    '@Kodiak': 'Riky',
-    '@davis218': 'Tio',
-    '@hannygeorge': 'Jan',
-    '@mLeggett': 'Myke',
-    '@WhatayaZay': 'Danimal',
-    '@natezeff': 'Zephyr',
-    '@bdvabch': 'BD',
-    '@Freddie4sumball': 'Brent',
-    '@RenPetschke': 'Donald',
-    '@FlappingBird': 'His Royal Highness and Supreme Commissioner',
-    '@Ana2187': 'Tia Ana',
-    '@Schafer2121': 'Schafer',
-    '@rguerra19': 'Tio Ryan',
-    '@leevus': 'Levi'
+    // Populate as desired; removed hard-coded special mentions to keep analysis balanced
   };
   return nameMap[handle] || handle;
 }
@@ -410,9 +395,7 @@ async function buildWeeklyPayload() {
         real_name: getRealName(rank.manager)
       })),
       standings_analysis: standingsAnalysis
-    },
-    riky_handle: findHandleByHint(users, RIKY_HINT),
-    levi_handle: findHandleByHint(users, LEVI_HINT),
+    }
   };
 
   return payload;
@@ -424,8 +407,6 @@ buildWeeklyPayload()
     console.log(JSON.stringify(p, null, 2));
     
     // Also save to file for the headless test
-    const fs = require('fs');
-    const path = require('path');
     
     // Ensure weekly_summaries directory exists
     const weeklyDir = path.join(__dirname, '..', 'weekly_summaries');

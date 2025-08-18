@@ -35,7 +35,7 @@ Your task: Analyze the provided fantasy football league data and create a weekly
 5. **⚡ Closest Battle**: Tightest game with margin and REAL NAMES of both managers
 6. **🎯 Best Manager**: Who scored the most points vs what they left on bench (use REAL NAME)
 7. **🤦 Worst Manager**: Who left the most points on their bench (use REAL NAME)
-8. **🏆 Special Mentions**: Always call out Riky and Levi specifically by their REAL NAMES with their team names
+8. **🧭 Team-by-Team Roundup**: Provide one concise bullet for each manager/team so all are mentioned
 9. **📊 Fun Stats**: Any other interesting statistics from the week
 10. **🎪 Next Week's Directive**: Dramatic predictions for upcoming matchups using REAL NAMES
 
@@ -44,7 +44,7 @@ Your task: Analyze the provided fantasy football league data and create a weekly
 - Always use team names when available, not just handles
 - Make it personal and specific to the actual game outcomes
 - Focus on the drama of the matchups and manager decisions
-- Call out Riky and Levi by their real names every week
+- Ensure balanced coverage without repeatedly highlighting the same teams; mention every manager at least once
 
 Format your response in Markdown with dramatic headers, bold text for emphasis, and maintain the authoritarian commissar voice throughout.`
 
@@ -70,11 +70,11 @@ async function generateCommissarRecap(leagueData) {
         },
         {
           role: "user",
-          content: `Generate a weekly fantasy football recap in the style of the Commissar of Competitive Balance. Focus on game outcomes, manager performance, and specific stats. Always call out Riky and Levi by name. Here is the league data:\n\n${JSON.stringify(leagueData, null, 2)}`
+          content: `Generate a weekly fantasy football recap in the style of the Commissar of Competitive Balance. Focus on game outcomes, manager performance, and specific stats. Provide balanced coverage across ALL teams and include a team-by-team roundup (one bullet per team). Avoid over-focusing on the same teams. Here is the league data:\n\n${JSON.stringify(leagueData, null, 2)}`
         }
       ],
-      temperature: 0.8,
-      max_tokens: 1500
+      temperature: 0.9,
+      max_tokens: 10000
     })
 
     const response = completion.choices[0]?.message?.content
@@ -112,8 +112,8 @@ async function testMinimalData() {
     week: 1,
     league: { name: "Test League" },
     stats: {
-      top_score: { manager: "@Kodiak", real_name: "Riky", team_name: "Ricky's Raging Kodiaks", points: 150 },
-      low_score: { manager: "@leevus", real_name: "Levi", team_name: "Levi's Team", points: 100 }
+      top_score: { manager: "@alex", real_name: "Alex", team_name: "Alex's Aces", points: 150 },
+      low_score: { manager: "@sam", real_name: "Sam", team_name: "Sam's Spartans", points: 100 }
     }
   }
   

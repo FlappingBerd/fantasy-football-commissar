@@ -40,11 +40,11 @@ async function generateCommissarAnalysis(leagueData, context = 'weekly') {
         },
         {
           role: "user",
-          content: `Generate a ${context} fantasy football analysis in the style of the Commissar of Competitive Balance. Focus on the specific context and always call out Riky and Levi by name. Here is the league data:\n\n${JSON.stringify(leagueData, null, 2)}`
+          content: `Generate a ${context} fantasy football analysis in the style of the Commissar of Competitive Balance. Provide balanced coverage across ALL teams and include a concise team-by-team roundup (one bullet per team). Avoid over-focusing on the same teams each week. Here is the league data:\n\n${JSON.stringify(leagueData, null, 2)}`
         }
       ],
-      temperature: 0.8,
-      max_tokens: 1500
+      temperature: 0.9,
+      max_tokens: 10000
     })
 
     const response = completion.choices[0]?.message?.content

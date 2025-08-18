@@ -25,11 +25,11 @@
       "real_name": "His Royal Highness and Supreme Commissioner"
     },
     {
-      "user_id": "453991667477770240",
-      "display_name": "Kodiak",
-      "team_name": "Ricky's Raging Kodiaks",
-      "handle": "@Kodiak",
-      "real_name": "Riky"
+      "user_id": "111111111111111111",
+      "display_name": "Alex",
+      "team_name": "Alex's Aces",
+      "handle": "@alex",
+      "real_name": "Alex"
     },
     {
       "user_id": "453991819093471232",
@@ -42,9 +42,9 @@
   "rosters": [
     {
       "roster_id": 1,
-      "team_name": "Ricky's Raging Kodiaks",
-      "manager": "Kodiak",
-      "real_name": "Riky",
+      "team_name": "Alex's Aces",
+      "manager": "@alex",
+      "real_name": "Alex",
       "wins": 0,
       "losses": 0,
       "fpts": 0,
@@ -55,9 +55,9 @@
   ],
   "matchups": [
     {
-      "team_name_home": "Ricky's Raging Kodiaks",
+      "team_name_home": "Alex's Aces",
       "team_name_away": "Shake Zula The Mic Rula",
-      "real_name_home": "Riky",
+      "real_name_home": "Alex",
       "real_name_away": "Tio",
       "points_home": 125.5,
       "points_away": 118.2,
@@ -67,9 +67,9 @@
   ],
   "stats": {
     "top_score": {
-      "manager": "Kodiak",
-      "real_name": "Riky",
-      "team_name": "Ricky's Raging Kodiaks",
+      "manager": "@alex",
+      "real_name": "Alex",
+      "team_name": "Alex's Aces",
       "points": 125.5
     },
     "low_score": {
@@ -91,8 +91,8 @@
       "bench_points": 45.2
     },
     "closest_game": {
-      "teams": ["Ricky's Raging Kodiaks", "Shake Zula The Mic Rula"],
-      "managers": ["Riky", "Tio"],
+      "teams": ["Alex's Aces", "Shake Zula The Mic Rula"],
+      "managers": ["Alex", "Tio"],
       "margin": 7.3
     },
     "largest_blowout": {
@@ -103,9 +103,9 @@
     "power_rankings": [
       {
         "rank": 1,
-        "manager": "Kodiak",
-        "real_name": "Riky",
-        "team_name": "Ricky's Raging Kodiaks",
+        "manager": "@alex",
+        "real_name": "Alex",
+        "team_name": "Alex's Aces",
         "wins": 1,
         "losses": 0,
         "win_percentage": 1.0,
@@ -117,7 +117,7 @@
       "playoff_teams": 6,
       "bubble_teams": 4,
       "eliminated_teams": 4,
-      "top_scorer": "Riky",
+      "top_scorer": "Alex",
       "worst_record": "Tio",
       "most_consistent": "Jan"
     }

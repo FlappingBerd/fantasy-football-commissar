@@ -1,6 +1,6 @@
-const cron = require('node-cron');
-const { exec } = require('child_process');
-const config = require('./config');
+import cron from 'node-cron';
+import { exec } from 'child_process';
+import config from './config.js';
 
 console.log('🧪 Testing Scheduler...\n');
 
@@ -8,7 +8,7 @@ console.log('🧪 Testing Scheduler...\n');
 console.log('📡 Testing fetch command...');
 const command = `node scripts/fetch_sleeper_week.js --league=${config.SLEEPER_LEAGUE_ID}`;
 
-exec(command, (error, stdout, stderr) => {
+exec(command, async (error, stdout, stderr) => {
   if (error) {
     console.error(`❌ Error: ${error.message}`);
     return;
@@ -26,7 +26,7 @@ exec(command, (error, stdout, stderr) => {
     console.log(`👥 Teams: ${data.users.length}`);
     
     // Test the formatting function
-    const { formatWeeklyMessage } = require('./schedule');
+    const { formatWeeklyMessage } = await import('./schedule.js');
     const message = formatWeeklyMessage(data);
     console.log('\n📝 Formatted Message:');
     console.log(message);

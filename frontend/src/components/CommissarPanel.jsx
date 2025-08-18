@@ -11,23 +11,23 @@ const fallbackData = {
     "season": "2025"
   },
   "users": [
-    {"display_name": "Kodiak", "team_name": "Ricky's Raging Kodiaks", "handle": "@Kodiak", "real_name": "Riky"},
-    {"display_name": "leevus", "team_name": "Levi's Legends", "handle": "@leevus", "real_name": "Levi"}
+    {"display_name": "Alex", "team_name": "Alex's Aces", "handle": "@alex", "real_name": "Alex"},
+    {"display_name": "Sam", "team_name": "Sam's Spartans", "handle": "@sam", "real_name": "Sam"}
   ],
   "rosters": [
     {
-      "team_name": "Ricky's Raging Kodiaks",
-      "manager": "@Kodiak",
-      "real_name": "Riky",
+      "team_name": "Alex's Aces",
+      "manager": "@alex",
+      "real_name": "Alex",
       "wins": 1,
       "losses": 0,
       "fpts": 145.2,
       "playoff_position": "playoff"
     },
     {
-      "team_name": "Levi's Legends",
-      "manager": "@leevus",
-      "real_name": "Levi",
+      "team_name": "Sam's Spartans",
+      "manager": "@sam",
+      "real_name": "Sam",
       "wins": 0,
       "losses": 1,
       "fpts": 132.8,
@@ -36,12 +36,12 @@ const fallbackData = {
   ],
   "matchups": [
     {
-      "manager_home": "@Kodiak",
-      "manager_away": "@leevus",
-      "real_name_home": "Riky",
-      "real_name_away": "Levi",
-      "team_name_home": "Ricky's Raging Kodiaks",
-      "team_name_away": "Levi's Legends",
+      "manager_home": "@alex",
+      "manager_away": "@sam",
+      "real_name_home": "Alex",
+      "real_name_away": "Sam",
+      "team_name_home": "Alex's Aces",
+      "team_name_away": "Sam's Spartans",
       "points_home": 145.2,
       "points_away": 132.8,
       "bench_points_home": 12.5,
@@ -49,25 +49,25 @@ const fallbackData = {
     }
   ],
   "stats": {
-    "top_score": {"manager": "@Kodiak", "real_name": "Riky", "team_name": "Ricky's Raging Kodiaks", "points": 145.2},
-    "low_score": {"manager": "@leevus", "real_name": "Levi", "team_name": "Levi's Legends", "points": 132.8},
-    "best_manager": {"manager": "@Kodiak", "real_name": "Riky", "team_name": "Ricky's Raging Kodiaks", "points": 145.2},
-    "worst_manager": {"manager": "@leevus", "real_name": "Levi", "team_name": "Levi's Legends", "bench_points": 8.2},
+    "top_score": {"manager": "@alex", "real_name": "Alex", "team_name": "Alex's Aces", "points": 145.2},
+    "low_score": {"manager": "@sam", "real_name": "Sam", "team_name": "Sam's Spartans", "points": 132.8},
+    "best_manager": {"manager": "@alex", "real_name": "Alex", "team_name": "Alex's Aces", "points": 145.2},
+    "worst_manager": {"manager": "@sam", "real_name": "Sam", "team_name": "Sam's Spartans", "bench_points": 8.2},
     "closest_game": {
-      "teams": ["Ricky's Raging Kodiaks", "Levi's Legends"],
-      "managers": ["@Kodiak", "@leevus"],
-      "real_names": ["Riky", "Levi"],
+      "teams": ["Alex's Aces", "Sam's Spartans"],
+      "managers": ["@alex", "@sam"],
+      "real_names": ["Alex", "Sam"],
       "margin": 12.4
     },
     "largest_blowout": {
-      "teams": ["Ricky's Raging Kodiaks", "Levi's Legends"],
-      "managers": ["@Kodiak", "@leevus"],
-      "real_names": ["Riky", "Levi"],
+      "teams": ["Alex's Aces", "Sam's Spartans"],
+      "managers": ["@alex", "@sam"],
+      "real_names": ["Alex", "Sam"],
       "margin": 12.4
     },
     "power_rankings": [
-      {"rank": 1, "manager": "@Kodiak", "real_name": "Riky", "team_name": "Ricky's Raging Kodiaks", "elo": 1550},
-      {"rank": 2, "manager": "@leevus", "real_name": "Levi", "team_name": "Levi's Legends", "elo": 1450}
+      {"rank": 1, "manager": "@alex", "real_name": "Alex", "team_name": "Alex's Aces", "elo": 1550},
+      {"rank": 2, "manager": "@sam", "real_name": "Sam", "team_name": "Sam's Spartans", "elo": 1450}
     ],
     "standings_analysis": {
       "total_teams": 2,
@@ -75,9 +75,7 @@ const fallbackData = {
       "bubble_teams": 1,
       "eliminated_teams": 0
     }
-  },
-  "riky_handle": "@Kodiak",
-  "levi_handle": "@leevus"
+  }
 }
 
 export default function CommissarPanel() {
@@ -135,6 +133,106 @@ export default function CommissarPanel() {
         console.log('🔄 Using fallback data with users:', leagueData.users?.length || 0)
       }
       
+      // If this is a draft analysis, try to fetch draft data
+      if (analysisContext === 'draft') {
+        try {
+          console.log('📋 Attempting to fetch draft data...')
+          
+          // Try to fetch from the saved draft data file
+          const draftDataResponse = await fetch('/draft_data/latest_draft.json')
+          if (draftDataResponse.ok) {
+            const parsedDraftData = await draftDataResponse.json()
+            console.log('✅ Draft data fetched successfully from file')
+            console.log('📊 Draft picks:', parsedDraftData.draft_picks?.length || 0)
+            console.log('👥 Managers with picks:', parsedDraftData.manager_analysis?.length || 0)
+            
+            // Merge draft data with league data
+            leagueData = {
+              ...leagueData,
+              draft_picks: parsedDraftData.draft_picks,
+              manager_analysis: parsedDraftData.manager_analysis,
+              draft_summary: parsedDraftData.draft_summary
+            }
+          } else {
+            console.log('⚠️ Draft data file not found, using enhanced fallback data')
+            // Use enhanced fallback data with some sample draft picks
+            leagueData = {
+              ...leagueData,
+              draft_picks: [
+                {
+                  round: 1,
+                  pick_no: 1,
+                  player_name: "Christian McCaffrey",
+                  position: "RB",
+                  team: "SF",
+                  manager: "@alex",
+                  real_name: "Alex",
+                  team_name: "Alex's Aces"
+                },
+                {
+                  round: 1,
+                  pick_no: 2,
+                  player_name: "Tyreek Hill",
+                  position: "WR",
+                  team: "MIA",
+                  manager: "@sam",
+                  real_name: "Sam",
+                  team_name: "Sam's Spartans"
+                },
+                {
+                  round: 2,
+                  pick_no: 3,
+                  player_name: "Breece Hall",
+                  position: "RB",
+                  team: "NYJ",
+                  manager: "@alex",
+                  real_name: "Alex",
+                  team_name: "Alex's Aces"
+                },
+                {
+                  round: 2,
+                  pick_no: 4,
+                  player_name: "CeeDee Lamb",
+                  position: "WR",
+                  team: "DAL",
+                  manager: "@sam",
+                  real_name: "Sam",
+                  team_name: "Sam's Spartans"
+                }
+              ],
+              manager_analysis: [
+                {
+                  manager: "@alex",
+                  real_name: "Alex",
+                  team_name: "Alex's Aces",
+                  total_picks: 2,
+                  position_breakdown: { "RB": 2 },
+                  picks: [
+                    { round: 1, player_name: "Christian McCaffrey", position: "RB", team: "SF" },
+                    { round: 2, player_name: "Breece Hall", position: "RB", team: "NYJ" }
+                  ]
+                },
+                {
+                  manager: "@sam",
+                  real_name: "Sam",
+                  team_name: "Sam's Spartans",
+                  total_picks: 2,
+                  position_breakdown: { "WR": 2 },
+                  picks: [
+                    { round: 1, player_name: "Tyreek Hill", position: "WR", team: "MIA" },
+                    { round: 2, player_name: "CeeDee Lamb", position: "WR", team: "DAL" }
+                  ]
+                }
+              ]
+            }
+          }
+          
+        } catch (draftError) {
+          console.log('⚠️ Draft data fetch failed:', draftError.message)
+          console.log('🔄 Proceeding with weekly data for draft analysis')
+        }
+      }
+      
       // Generate commissar analysis
       console.log(`🎭 Generating ${analysisContext} analysis...`)
       console.log('📤 Data source:', leagueData === fallbackData ? 'FALLBACK' : 'SUPABASE')
@@ -185,6 +283,29 @@ export default function CommissarPanel() {
       setSavedRecaps(recaps)
     } catch (err) {
       console.error('❌ Error loading saved recaps:', err)
+    }
+  }
+
+  const handleCopyAnalysis = async () => {
+    if (!analysis) return
+    
+    try {
+      await navigator.clipboard.writeText(analysis)
+      // Show a temporary success message
+      const originalText = document.title
+      document.title = '✅ Copied to clipboard!'
+      setTimeout(() => {
+        document.title = originalText
+      }, 2000)
+    } catch (err) {
+      console.error('❌ Error copying to clipboard:', err)
+      // Fallback for older browsers
+      const textArea = document.createElement('textarea')
+      textArea.value = analysis
+      document.body.appendChild(textArea)
+      textArea.select()
+      document.execCommand('copy')
+      document.body.removeChild(textArea)
     }
   }
 
@@ -257,8 +378,8 @@ export default function CommissarPanel() {
                   week: 1,
                   league: { name: "Test League" },
                   stats: {
-                    top_score: { manager: "@Kodiak", real_name: "Riky", team_name: "Ricky's Raging Kodiaks", points: 150 },
-                    low_score: { manager: "@leevus", real_name: "Levi", team_name: "Levi's Team", points: 100 }
+                    top_score: { manager: "@alex", real_name: "Alex", team_name: "Alex's Aces", points: 150 },
+                    low_score: { manager: "@sam", real_name: "Sam", team_name: "Sam's Spartans", points: 100 }
                   }
                 }
                 
@@ -331,20 +452,28 @@ export default function CommissarPanel() {
               <h2 className="text-sm font-medium text-terminal-fg/80">
                 📋 COMMISSAR'S {analysisContext.toUpperCase()} REPORT
               </h2>
-              <button
-                onClick={handleSaveAnalysis}
-                disabled={isSaving}
-                className={`
-                  px-3 py-1 text-xs font-mono rounded border
-                  transition-all duration-200
-                  ${isSaving
-                    ? 'bg-terminal-border text-terminal-fg/50 cursor-not-allowed'
-                    : 'bg-green-600/20 border-green-500 text-green-400 hover:bg-green-600/30'
-                  }
-                `}
-              >
-                {isSaving ? '💾 Saving...' : '💾 Save to Supabase'}
-              </button>
+              <div className="flex gap-2">
+                <button
+                  onClick={handleCopyAnalysis}
+                  className="px-3 py-1 text-xs font-mono rounded border bg-blue-600/20 border-blue-500 text-blue-400 hover:bg-blue-600/30 transition-all duration-200"
+                >
+                  📋 Copy to Clipboard
+                </button>
+                <button
+                  onClick={handleSaveAnalysis}
+                  disabled={isSaving}
+                  className={`
+                    px-3 py-1 text-xs font-mono rounded border
+                    transition-all duration-200
+                    ${isSaving
+                      ? 'bg-terminal-border text-terminal-fg/50 cursor-not-allowed'
+                      : 'bg-green-600/20 border-green-500 text-green-400 hover:bg-green-600/30'
+                    }
+                  `}
+                >
+                  {isSaving ? '💾 Saving...' : '💾 Save to Supabase'}
+                </button>
+              </div>
             </div>
             <div className="p-6 prose prose-invert prose-sm max-w-none">
               {(() => {

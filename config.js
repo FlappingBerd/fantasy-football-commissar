@@ -1,5 +1,5 @@
 // Configuration file for Fantasy Weekly Updates
-module.exports = {
+export default {
   // Your Sleeper League ID (required)
   SLEEPER_LEAGUE_ID: '1249366852329549824',
   

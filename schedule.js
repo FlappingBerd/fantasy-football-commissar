@@ -1,8 +1,13 @@
-const cron = require('node-cron');
-const { exec } = require('child_process');
-const fs = require('fs');
-const path = require('path');
-const config = require('./config');
+import cron from 'node-cron';
+import { exec } from 'child_process';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import config from './config.js';
+
+// Get __dirname equivalent for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Configuration
 const LEAGUE_ID = config.SLEEPER_LEAGUE_ID;
@@ -33,8 +38,8 @@ async function postToDiscord(message) {
   }
 
   try {
-    const axios = require('axios');
-    await axios.post(DISCORD_WEBHOOK_URL, {
+    const axios = await import('axios');
+    await axios.default.post(DISCORD_WEBHOOK_URL, {
       content: message
     });
     console.log('Posted to Discord successfully!');
@@ -129,9 +134,18 @@ function formatWeeklyMessage(data) {
     });
   }
   
-  // Special mentions for Riky and Levi
-  if (data.riky_handle && data.levi_handle) {
-    message += `\n🎯 **Special Mentions:** ${data.riky_handle} & ${data.levi_handle}\n`;
+  // Team-by-team roundup (ensure broad coverage)
+  if (Array.isArray(data.users) && data.users.length > 0) {
+    message += `\n🧭 **Team-by-Team Roundup:**\n`;
+    const uniqueManagers = new Set();
+    (data.users || []).forEach((u) => {
+      const name = u.real_name || u.display_name || u.handle || 'Manager';
+      if (!uniqueManagers.has(name)) {
+        uniqueManagers.add(name);
+        message += `- ${name}\n`;
+      }
+    });
+    message += `\n`;
   }
   
   return message;
@@ -162,4 +176,4 @@ process.on('SIGINT', () => {
 });
 
 // Export for testing
-module.exports = { formatWeeklyMessage }; 
+export { formatWeeklyMessage }; 
