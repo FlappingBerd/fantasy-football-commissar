@@ -1,0 +1,47 @@
+{
+  "name": "fantasy-football-commissar",
+  "version": "1.0.0",
+  "description": "AI-powered fantasy football analysis with satirical Commissar commentary",
+  "type": "module",
+  "main": "scripts/fetch_sleeper_week.js",
+  "scripts": {
+    "fetch": "node scripts/fetch_sleeper_week.js",
+    "generate": "node generate-recap.js",
+    "test": "node test-openai-headless.js",
+    "fix-supabase": "node fix-supabase-upload.js",
+    "dev": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "preview": "cd frontend && npm run preview"
+  },
+  "keywords": [
+    "fantasy-football",
+    "ai",
+    "openai",
+    "sleeper-api",
+    "supabase",
+    "react",
+    "satire"
+  ],
+  "author": "Fantasy Football Commissar",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "dotenv": "^16.3.1",
+    "node-cron": "^3.0.3",
+    "openai": "^4.20.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.55.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/fantasy-football-commissar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/fantasy-football-commissar/issues"
+  },
+  "homepage": "https://github.com/yourusername/fantasy-football-commissar#readme"
+}
