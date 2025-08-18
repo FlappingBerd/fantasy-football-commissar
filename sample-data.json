@@ -1,0 +1,125 @@
+{
+  "week": 1,
+  "date_range": "September 5-9, 2024",
+  "league": {
+    "id": "1249366852329549824",
+    "name": "Internet Football League",
+    "season": "2025",
+    "scoring_settings": {
+      "pass_yd": 0.04,
+      "pass_td": 4,
+      "int": -1,
+      "rush_yd": 0.1,
+      "rush_td": 6,
+      "rec_yd": 0.1,
+      "rec_td": 6,
+      "fum": -1
+    }
+  },
+  "users": [
+    {
+      "user_id": "453989542328791040",
+      "display_name": "FlappingBird",
+      "team_name": "Loading please wait…",
+      "handle": "@FlappingBird",
+      "real_name": "His Royal Highness and Supreme Commissioner"
+    },
+    {
+      "user_id": "453991667477770240",
+      "display_name": "Kodiak",
+      "team_name": "Ricky's Raging Kodiaks",
+      "handle": "@Kodiak",
+      "real_name": "Riky"
+    },
+    {
+      "user_id": "453991819093471232",
+      "display_name": "davis218",
+      "team_name": "Shake Zula The Mic Rula",
+      "handle": "@davis218",
+      "real_name": "Tio"
+    }
+  ],
+  "rosters": [
+    {
+      "roster_id": 1,
+      "team_name": "Ricky's Raging Kodiaks",
+      "manager": "Kodiak",
+      "real_name": "Riky",
+      "wins": 0,
+      "losses": 0,
+      "fpts": 0,
+      "fpts_decimal": 0,
+      "rank": 1,
+      "playoff_position": "playoff"
+    }
+  ],
+  "matchups": [
+    {
+      "team_name_home": "Ricky's Raging Kodiaks",
+      "team_name_away": "Shake Zula The Mic Rula",
+      "real_name_home": "Riky",
+      "real_name_away": "Tio",
+      "points_home": 125.5,
+      "points_away": 118.2,
+      "roster_id_home": 1,
+      "roster_id_away": 2
+    }
+  ],
+  "stats": {
+    "top_score": {
+      "manager": "Kodiak",
+      "real_name": "Riky",
+      "team_name": "Ricky's Raging Kodiaks",
+      "points": 125.5
+    },
+    "low_score": {
+      "manager": "davis218",
+      "real_name": "Tio",
+      "team_name": "Shake Zula The Mic Rula",
+      "points": 118.2
+    },
+    "best_manager": {
+      "manager": "Kodiak",
+      "real_name": "Riky",
+      "team_name": "Ricky's Raging Kodiaks",
+      "points": 125.5
+    },
+    "worst_manager": {
+      "manager": "davis218",
+      "real_name": "Tio",
+      "team_name": "Shake Zula The Mic Rula",
+      "bench_points": 45.2
+    },
+    "closest_game": {
+      "teams": ["Ricky's Raging Kodiaks", "Shake Zula The Mic Rula"],
+      "managers": ["Riky", "Tio"],
+      "margin": 7.3
+    },
+    "largest_blowout": {
+      "teams": ["Team A", "Team B"],
+      "managers": ["Manager A", "Manager B"],
+      "margin": 45.2
+    },
+    "power_rankings": [
+      {
+        "rank": 1,
+        "manager": "Kodiak",
+        "real_name": "Riky",
+        "team_name": "Ricky's Raging Kodiaks",
+        "wins": 1,
+        "losses": 0,
+        "win_percentage": 1.0,
+        "points_per_game": 125.5
+      }
+    ],
+    "standings_analysis": {
+      "total_teams": 14,
+      "playoff_teams": 6,
+      "bubble_teams": 4,
+      "eliminated_teams": 4,
+      "top_scorer": "Riky",
+      "worst_record": "Tio",
+      "most_consistent": "Jan"
+    }
+  }
+} 
