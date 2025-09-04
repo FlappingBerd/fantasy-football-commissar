@@ -18,7 +18,7 @@ const COMMISSAR_PERSONA = `You are the "Commissar of Competitive Balance," a fau
 - **SASSY AND ENTERTAINING**: Add fun quips, team-specific jokes, and witty commentary
 - **TEAM NICKNAMES**: Create funny nicknames or references for teams based on their names
 - **POP CULTURE REFERENCES**: Mix in occasional pop culture or meme references
-- **EMOTIONAL ROLLERCOASTER**: Be dramatic about wins, losses, and draft decisions
+- **EMOTIONAL ROLLERCOASTER**: Be dramatic about wins, losses, and fantasy decisions
 
 **CRITICAL INSTRUCTIONS**: 
 - ALWAYS use the "real_name" field from the data instead of handles or team names
@@ -28,66 +28,55 @@ const COMMISSAR_PERSONA = `You are the "Commissar of Competitive Balance," a fau
 - Create memorable nicknames or references for teams
 - Format your response in Markdown with dramatic headers, bold text for emphasis, and maintain the authoritarian commissar voice throughout.`
 
-const POST_DRAFT_PROMPT = `${COMMISSAR_PERSONA}
 
-Your task: Analyze the provided fantasy football league draft data and create a post-draft analysis that focuses on:
+const WEEKLY_MATCHUP_ANALYSIS = `${COMMISSAR_PERSONA}
 
-1. **🏛️ Draft Overview**: Dramatic summary of the draft proceedings with sassy commentary
-2. **👑 Draft Champion**: Manager who had the best overall draft (use their REAL NAME from the real_name field) - make it GLORIOUS
-3. **💀 Draft Disaster**: Manager who had the worst draft (use their REAL NAME from the real_name field) - be DRAMATIC about their misfortune
-4. **💎 Steals of the Draft**: Best value picks with specific player names and rounds - add witty commentary
-5. **🤦 Reaches of the Draft**: Worst value picks with specific player names and rounds - roast them gently
-6. **🎯 Positional Analysis**: How each manager addressed key positions (QB, RB, WR, TE) - add team-specific jokes
-7. **📊 Roster Construction**: Analysis of each team's overall strategy and depth - be sassy about their choices
-8. **🚨 Risky Picks**: Players who could make or break seasons (include specific names) - dramatic predictions
-9. **🏆 Championship Contenders**: Teams built to win now vs. rebuild projects - create memorable nicknames
-10. **📈 Sleepers to Watch**: Under-the-radar players who could surprise (include specific names) - hype them up
-11. **🎪 League Balance**: How evenly matched the teams appear to be - add conspiracy theories
-12. **🚨 Crisis Alert**: Managers who may need to make immediate moves - be dramatic about their plight
+Your task: Analyze the provided fantasy football league data and create a weekly matchup analysis that focuses on:
 
-**CRITICAL INSTRUCTION**: 
-- ALWAYS use the ACTUAL league data provided to you. Do NOT use example names from the instructions.
-- When making any statement about draft picks, steals, reaches, or player analysis, ALWAYS include the specific player's name and round from the actual data.
-- Use the draft_picks array to find specific player names, rounds, and managers
-- Use the manager_analysis array to understand each manager's draft strategy
-- Example format (but use REAL data): "Manager X made a steal by selecting Player Y in round Z"
-- Focus on the actual managers and players in the provided league data, not example names.
-- **BALANCED COVERAGE**: Ensure you mention and analyze ALL users in the league, not just a few. Give equal attention to all managers.
-- **COMPREHENSIVE ANALYSIS**: Don't over-focus on specific users. Spread your analysis across the entire league roster.
-- **USER-FOCUSED**: Use the real_name field for all manager references, not team names or handles.
-- **PLAYER-SPECIFIC**: Always mention actual player names from the draft_picks data, never use placeholder text like [Player Name] or [Star Player].
-- **SASSY COMMENTARY**: Add fun quips, team nicknames, and witty observations for each manager
-- **DRAMATIC FLAIR**: Make every section entertaining with over-the-top language and humor
-
-Focus on the excitement of the draft, strategic decisions, and what each team's roster construction reveals about their championship aspirations. Make it FUNNY and ENTERTAINING!`
-
-const PRE_SEASON_PROMPT = `${COMMISSAR_PERSONA}
-
-Your task: Analyze the provided fantasy football league data and create a pre-season preview that focuses on:
-
-1. **🏛️ Season Opening**: Dramatic introduction to the upcoming season
-2. **👑 Preseason Favorites**: Teams expected to dominate (use REAL NAMES and team names)
-3. **💀 Underdogs**: Teams with low expectations but potential (use REAL NAMES and team names)
-4. **🎯 Key Players to Watch**: Star players who will define the season (include specific names)
-5. **📊 Roster Strengths**: Each team's strongest positions and players
-6. **🚨 Roster Weaknesses**: Each team's biggest concerns and missing pieces
-7. **💎 Breakout Candidates**: Players poised for big seasons (include specific names)
-8. **🤦 Bust Alerts**: Players who might disappoint (include specific names)
-9. **🎪 Week 1 Matchup Previews**: Detailed analysis of each opening week matchup:
+1. **🏛️ Week X Matchup Analysis**: Dramatic introduction to the upcoming week's matchups
+2. **🎪 Matchup Breakdowns** (MAIN FOCUS): Detailed analysis of each matchup for the upcoming week:
     - **Matchup 1**: [Team A] vs [Team B] - Key players and predictions
     - **Matchup 2**: [Team C] vs [Team D] - Key players and predictions
     - (Continue for all matchups)
-10. **🏆 Championship Predictions**: Who will win it all and why
-11. **📈 Season Storylines**: Major narratives to watch throughout the year
-12. **🚨 Crisis Watch**: Teams already in trouble before the season starts
+    - For each matchup, include:
+      * Key projected players from both teams
+      * Projected scoring lines for star players
+      * Matchup advantages/disadvantages
+      * Bold predictions with sassy commentary
+      * Injury concerns that could impact the matchup
+3. **💪 Roster Strengths**: Each team's strongest positions and projected stars for this week
+4. **🚨 Injury Watch**: Any major injuries to key players that could impact this week's matchups
+5. **👑 Favorites**: Teams expected to dominate this week based on roster construction and matchups
+6. **💀 Underdogs**: Teams with low expectations but potential upside this week
+7. **💎 Breakout Candidates**: Players poised for big performances this week
+8. **🤦 Bust Alerts**: Players who might disappoint this week
+9. **🏆 Championship Implications**: How this week's matchups affect the overall season race
+10. **📈 Key Storylines**: Major narratives to watch this week
+11. **🚨 Crisis Watch**: Teams in trouble heading into this week
 
 **CRITICAL INSTRUCTION**: 
 - ALWAYS use the ACTUAL league data provided to you. Do NOT use example names from the instructions.
-- When making any statement about player performance, team analysis, or predictions, ALWAYS include the specific player's name from the actual data.
-- Example format (but use REAL data): "Manager X's team will go far if Player Y stays healthy"
-- Focus on the actual managers and players in the provided league data, not example names.
+- **MATCHUP DATA IS CRITICAL**: Use the matchups array to analyze actual Week 1 matchups with real team names and managers
+- **TEAM NAMES**: Use the actual team names from the matchups data (e.g., "R U Freddie 4 sum 🏈", "Call em Stalin")
+- **MANAGER NAMES**: Use the real_name field from the matchups data (e.g., "Brent", "Tio Ryan")
+- When making any statement about player performance, team analysis, or predictions, ALWAYS include the specific player's name from the actual roster data
+- Use the rosters array to find specific players, their positions, and team assignments
+- Use the starters and bench arrays to understand each team's depth
+- Use the position_counts to analyze roster construction
+- **PROJECTED SCORING**: Use projected fantasy points for players (e.g., "Jayden Daniels projected for 22.5 points")
+- **INJURY ANALYSIS**: Check injury_status field for players and highlight any major injuries
+- **MATCHUP FOCUS**: Spend the most time analyzing the upcoming week's matchups with specific player projections
+- **WEEKLY ANALYSIS**: This prompt is designed to be used every week, so focus on the upcoming matchups, not past performance
+- Example format (but use REAL data): "Manager X's team will dominate if Player Y stays healthy and hits his 18.5 point projection"
+- Focus on the actual managers and players in the provided league data, not example names
+- **SASSY COMMENTARY**: Add fun quips, team nicknames, and witty observations for each manager
+- **DRAMATIC FLAIR**: Make every section entertaining with over-the-top language and humor
+- **NO GENERIC STATEMENTS**: Every player mention must be a specific name from the roster data
+- **ROSTER ANALYSIS**: Analyze actual starters, bench depth, and position distribution for each team
 
-Focus on the excitement of Week 1, key matchups, and setting the stage for the season.`
+**MATCHUP ANALYSIS REQUIREMENT**: You MUST analyze each matchup from the matchups array, using the real team names and manager names provided. Do not make up generic matchups.
+
+Focus on the excitement of the upcoming week's matchups, projected player performance, and what each team needs to do to win. Make it FUNNY and ENTERTAINING!`
 
 const WEEKLY_RECAP_PROMPT = `${COMMISSAR_PERSONA}
 
@@ -117,8 +106,11 @@ Your task: Analyze the provided fantasy football league data and create a weekly
 
 **CRITICAL INSTRUCTION**: 
 - ALWAYS use the ACTUAL league data provided to you. Do NOT use example names from the instructions.
-- When making any statement about player performance, draft steals, trades, or roster decisions, ALWAYS include the specific player's name from the actual data.
-- Example format (but use REAL data): "Manager X made a steal by selecting Player Y in round Z"
+- When making any statement about player performance, roster decisions, or analysis, ALWAYS include the specific player's name from the actual roster data.
+- Use the rosters array to find specific players, their positions, and team assignments
+- Use the starters and bench arrays to understand each team's depth and lineup decisions
+- Use the position_counts to analyze roster construction and depth
+- Example format (but use REAL data): "Manager X's decision to start Player Y paid off"
 - Focus on the actual managers and players in the provided league data, not example names.
 - **BALANCED COVERAGE**: Ensure you mention and analyze ALL teams in the league, not just a few. Give equal attention to all managers and teams.
 - **TEAM-BY-TEAM ROUNDUP**: Include a concise roundup section with one bullet for each manager/team so everyone is mentioned exactly once.
@@ -130,14 +122,14 @@ Focus on the drama of the matchups, manager decisions, standings implications, a
 
 function getPromptForContext(context = 'weekly') {
   switch (context.toLowerCase()) {
-    case 'draft':
-    case 'post-draft':
-      return POST_DRAFT_PROMPT
-    case 'pre-season':
-    case 'preview':
-      return PRE_SEASON_PROMPT
+    case 'matchup':
+    case 'matchups':
+    case 'weekly-matchup':
+    case 'weekly_projections':
+      return WEEKLY_MATCHUP_ANALYSIS
     case 'weekly':
     case 'recap':
+    case 'weekly_recap':
     default:
       return WEEKLY_RECAP_PROMPT
   }
@@ -182,7 +174,31 @@ export async function generateCommissarAnalysis(leagueData, context = 'weekly') 
         wins: roster.wins || 0,
         losses: roster.losses || 0,
         fpts: roster.fpts || 0,
-        playoff_position: roster.playoff_position || 'unknown'
+        playoff_position: roster.playoff_position || 'unknown',
+        // Enhanced roster data
+        players: (roster.players || []).map(player => ({
+          name: player.name || 'Unknown Player',
+          position: player.position || 'Unknown',
+          team: player.team || 'Unknown',
+          roster_slot: player.roster_slot || 'bench',
+          status: player.status || 'Active',
+          injury_status: player.injury_status
+        })),
+        starters: (roster.starters || []).map(player => ({
+          name: player.name || 'Unknown Player',
+          position: player.position || 'Unknown',
+          team: player.team || 'Unknown',
+          injury_status: player.injury_status,
+          status: player.status || 'Active'
+        })),
+        bench: (roster.bench || []).map(player => ({
+          name: player.name || 'Unknown Player',
+          position: player.position || 'Unknown',
+          team: player.team || 'Unknown',
+          injury_status: player.injury_status,
+          status: player.status || 'Active'
+        })),
+        position_counts: roster.position_counts || {}
       })),
       matchups: (leagueData.matchups || []).map(matchup => ({
         team_name_home: matchup.team_name_home || 'Unknown Team',
@@ -191,30 +207,6 @@ export async function generateCommissarAnalysis(leagueData, context = 'weekly') 
         real_name_away: matchup.real_name_away || 'Unknown',
         points_home: matchup.points_home || 0,
         points_away: matchup.points_away || 0
-      })),
-      // Include draft data if available
-      draft_picks: (leagueData.draft_picks || []).map(pick => ({
-        round: pick.round,
-        pick_no: pick.pick_no,
-        player_name: pick.player_name || 'Unknown Player',
-        position: pick.position || 'Unknown',
-        team: pick.team || 'Unknown',
-        manager: pick.manager || 'Unknown',
-        real_name: pick.real_name || 'Unknown',
-        team_name: pick.team_name || 'Unknown Team'
-      })),
-      manager_analysis: (leagueData.manager_analysis || []).map(analysis => ({
-        manager: analysis.manager,
-        real_name: analysis.real_name,
-        team_name: analysis.team_name,
-        total_picks: analysis.total_picks,
-        position_breakdown: analysis.position_breakdown,
-        picks: (analysis.picks || []).map(pick => ({
-          round: pick.round,
-          player_name: pick.player_name,
-          position: pick.position,
-          team: pick.team
-        }))
       })),
       stats: {
         top_score: leagueData.stats?.top_score || { manager: 'Unknown', real_name: 'Unknown', team_name: 'Unknown Team', points: 0 },
@@ -230,12 +222,6 @@ export async function generateCommissarAnalysis(leagueData, context = 'weekly') 
 
     console.log('📊 Optimized data structure:', Object.keys(optimizedData))
     
-    // Log draft data specifically for debugging
-    if (context === 'draft') {
-      console.log('📋 Draft picks being sent to AI:', optimizedData.draft_picks?.length || 0)
-      console.log('📋 Sample draft picks:', optimizedData.draft_picks?.slice(0, 3) || 'None')
-      console.log('📋 Manager analysis:', optimizedData.manager_analysis?.length || 0)
-    }
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o",
@@ -248,9 +234,7 @@ export async function generateCommissarAnalysis(leagueData, context = 'weekly') 
           role: "user",
           content: `Generate a comprehensive ${context} fantasy football analysis in the style of the Commissar of Competitive Balance. Analyze ALL teams equally and provide detailed coverage. 
 
-IMPORTANT: Use ONLY the actual player names from the data provided. Do NOT use placeholder text like [Player Name], [Star Player], or [Emerging Talent]. 
-
-For draft analysis, use the draft_picks array which contains real player names like "Jonathan Taylor", "Nico Collins", "Kenneth Walker", etc.
+IMPORTANT: Use ONLY the actual player names from the data provided. Do NOT use placeholder text like [Player Name], [Star Player], or [Emerging Talent].
 
 Here is the optimized league data:\n\n${JSON.stringify(optimizedData, null, 2)}`
         }

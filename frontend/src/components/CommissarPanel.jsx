@@ -3,79 +3,16 @@ import ReactMarkdown from 'react-markdown'
 import { fetchLatestRecap, uploadRecap, saveCommissarRecap, listSavedRecaps, downloadRecap } from '../lib/supabase'
 import { generateCommissarAnalysis } from '../lib/openai'
 
-// Fallback data in case Supabase is unavailable
+// Fallback data in case both local and Supabase are unavailable
 const fallbackData = {
-  "week": 1,
-  "league": {
-    "name": "Internet Football League",
-    "season": "2025"
+  week: 1,
+  league: {
+    name: "Internet Football League",
+    season: "2025"
   },
-  "users": [
-    {"display_name": "Alex", "team_name": "Alex's Aces", "handle": "@alex", "real_name": "Alex"},
-    {"display_name": "Sam", "team_name": "Sam's Spartans", "handle": "@sam", "real_name": "Sam"}
-  ],
-  "rosters": [
-    {
-      "team_name": "Alex's Aces",
-      "manager": "@alex",
-      "real_name": "Alex",
-      "wins": 1,
-      "losses": 0,
-      "fpts": 145.2,
-      "playoff_position": "playoff"
-    },
-    {
-      "team_name": "Sam's Spartans",
-      "manager": "@sam",
-      "real_name": "Sam",
-      "wins": 0,
-      "losses": 1,
-      "fpts": 132.8,
-      "playoff_position": "bubble"
-    }
-  ],
-  "matchups": [
-    {
-      "manager_home": "@alex",
-      "manager_away": "@sam",
-      "real_name_home": "Alex",
-      "real_name_away": "Sam",
-      "team_name_home": "Alex's Aces",
-      "team_name_away": "Sam's Spartans",
-      "points_home": 145.2,
-      "points_away": 132.8,
-      "bench_points_home": 12.5,
-      "bench_points_away": 8.2
-    }
-  ],
-  "stats": {
-    "top_score": {"manager": "@alex", "real_name": "Alex", "team_name": "Alex's Aces", "points": 145.2},
-    "low_score": {"manager": "@sam", "real_name": "Sam", "team_name": "Sam's Spartans", "points": 132.8},
-    "best_manager": {"manager": "@alex", "real_name": "Alex", "team_name": "Alex's Aces", "points": 145.2},
-    "worst_manager": {"manager": "@sam", "real_name": "Sam", "team_name": "Sam's Spartans", "bench_points": 8.2},
-    "closest_game": {
-      "teams": ["Alex's Aces", "Sam's Spartans"],
-      "managers": ["@alex", "@sam"],
-      "real_names": ["Alex", "Sam"],
-      "margin": 12.4
-    },
-    "largest_blowout": {
-      "teams": ["Alex's Aces", "Sam's Spartans"],
-      "managers": ["@alex", "@sam"],
-      "real_names": ["Alex", "Sam"],
-      "margin": 12.4
-    },
-    "power_rankings": [
-      {"rank": 1, "manager": "@alex", "real_name": "Alex", "team_name": "Alex's Aces", "elo": 1550},
-      {"rank": 2, "manager": "@sam", "real_name": "Sam", "team_name": "Sam's Spartans", "elo": 1450}
-    ],
-    "standings_analysis": {
-      "total_teams": 2,
-      "playoff_teams": 1,
-      "bubble_teams": 1,
-      "eliminated_teams": 0
-    }
-  }
+  users: [],
+  rosters: [],
+  matchups: []
 }
 
 export default function CommissarPanel() {
@@ -85,7 +22,7 @@ export default function CommissarPanel() {
   const [savedRecaps, setSavedRecaps] = useState([])
   const [isSaving, setIsSaving] = useState(false)
   const [currentWeek, setCurrentWeek] = useState(1)
-  const [analysisContext, setAnalysisContext] = useState('weekly')
+  const [analysisContext, setAnalysisContext] = useState('weekly_recap')
 
   // Load saved recaps on component mount
   useEffect(() => {
@@ -95,11 +32,9 @@ export default function CommissarPanel() {
   // Helper function to get context label
   const getContextLabel = (context) => {
     switch (context) {
-      case 'draft':
-        return 'Post-Draft Analysis'
-      case 'pre-season':
-        return 'Pre-Season Preview'
-      case 'weekly':
+      case 'weekly_projections':
+        return 'Weekly Matchup Projections'
+      case 'weekly_recap':
         return 'Weekly Recap'
       default:
         return 'Analysis'
@@ -118,120 +53,31 @@ export default function CommissarPanel() {
       
       try {
         leagueData = await fetchLatestRecap()
-        console.log('✅ Successfully fetched from Supabase')
+        console.log('✅ Successfully fetched league data')
         console.log('📊 League data structure:', Object.keys(leagueData))
         console.log('👥 Number of users:', leagueData.users?.length || 0)
         console.log('🏈 Number of rosters:', leagueData.rosters?.length || 0)
         console.log('⚔️ Number of matchups:', leagueData.matchups?.length || 0)
         console.log('🔍 Sample users:', leagueData.users?.slice(0, 3).map(u => u.real_name))
         console.log('🔍 Sample rosters:', leagueData.rosters?.slice(0, 3).map(r => r.real_name))
+        
+        // Check if we have enhanced matchup data
+        if (leagueData.matchups && leagueData.matchups.length > 0) {
+          const hasEnhancedData = leagueData.matchups.some(m => m.is_key_matchup !== undefined)
+          console.log('🔍 Enhanced matchup data:', hasEnhancedData ? 'YES' : 'NO')
+          if (hasEnhancedData) {
+            console.log('🎯 Key matchups found:', leagueData.matchups.filter(m => m.is_key_matchup).length)
+          }
+        }
+        
         setCurrentWeek(leagueData.week || 1)
       } catch (fetchError) {
-        console.log('⚠️ Supabase fetch failed, using fallback data:', fetchError.message)
+        console.log('⚠️ Data fetch failed, using minimal fallback:', fetchError.message)
         console.log('🔍 Fetch error details:', fetchError)
         leagueData = fallbackData
-        console.log('🔄 Using fallback data with users:', leagueData.users?.length || 0)
+        console.log('🔄 Using minimal fallback data')
       }
       
-      // If this is a draft analysis, try to fetch draft data
-      if (analysisContext === 'draft') {
-        try {
-          console.log('📋 Attempting to fetch draft data...')
-          
-          // Try to fetch from the saved draft data file
-          const draftDataResponse = await fetch('/draft_data/latest_draft.json')
-          if (draftDataResponse.ok) {
-            const parsedDraftData = await draftDataResponse.json()
-            console.log('✅ Draft data fetched successfully from file')
-            console.log('📊 Draft picks:', parsedDraftData.draft_picks?.length || 0)
-            console.log('👥 Managers with picks:', parsedDraftData.manager_analysis?.length || 0)
-            
-            // Merge draft data with league data
-            leagueData = {
-              ...leagueData,
-              draft_picks: parsedDraftData.draft_picks,
-              manager_analysis: parsedDraftData.manager_analysis,
-              draft_summary: parsedDraftData.draft_summary
-            }
-          } else {
-            console.log('⚠️ Draft data file not found, using enhanced fallback data')
-            // Use enhanced fallback data with some sample draft picks
-            leagueData = {
-              ...leagueData,
-              draft_picks: [
-                {
-                  round: 1,
-                  pick_no: 1,
-                  player_name: "Christian McCaffrey",
-                  position: "RB",
-                  team: "SF",
-                  manager: "@alex",
-                  real_name: "Alex",
-                  team_name: "Alex's Aces"
-                },
-                {
-                  round: 1,
-                  pick_no: 2,
-                  player_name: "Tyreek Hill",
-                  position: "WR",
-                  team: "MIA",
-                  manager: "@sam",
-                  real_name: "Sam",
-                  team_name: "Sam's Spartans"
-                },
-                {
-                  round: 2,
-                  pick_no: 3,
-                  player_name: "Breece Hall",
-                  position: "RB",
-                  team: "NYJ",
-                  manager: "@alex",
-                  real_name: "Alex",
-                  team_name: "Alex's Aces"
-                },
-                {
-                  round: 2,
-                  pick_no: 4,
-                  player_name: "CeeDee Lamb",
-                  position: "WR",
-                  team: "DAL",
-                  manager: "@sam",
-                  real_name: "Sam",
-                  team_name: "Sam's Spartans"
-                }
-              ],
-              manager_analysis: [
-                {
-                  manager: "@alex",
-                  real_name: "Alex",
-                  team_name: "Alex's Aces",
-                  total_picks: 2,
-                  position_breakdown: { "RB": 2 },
-                  picks: [
-                    { round: 1, player_name: "Christian McCaffrey", position: "RB", team: "SF" },
-                    { round: 2, player_name: "Breece Hall", position: "RB", team: "NYJ" }
-                  ]
-                },
-                {
-                  manager: "@sam",
-                  real_name: "Sam",
-                  team_name: "Sam's Spartans",
-                  total_picks: 2,
-                  position_breakdown: { "WR": 2 },
-                  picks: [
-                    { round: 1, player_name: "Tyreek Hill", position: "WR", team: "MIA" },
-                    { round: 2, player_name: "CeeDee Lamb", position: "WR", team: "DAL" }
-                  ]
-                }
-              ]
-            }
-          }
-          
-        } catch (draftError) {
-          console.log('⚠️ Draft data fetch failed:', draftError.message)
-          console.log('🔄 Proceeding with weekly data for draft analysis')
-        }
-      }
       
       // Generate commissar analysis
       console.log(`🎭 Generating ${analysisContext} analysis...`)
@@ -335,9 +181,8 @@ export default function CommissarPanel() {
             onChange={(e) => setAnalysisContext(e.target.value)}
             className="bg-terminal-bg border border-terminal-border text-terminal-fg px-3 py-2 rounded-md font-mono text-sm focus:outline-none focus:border-terminal-accent"
           >
-            <option value="draft">📋 Post-Draft Analysis</option>
-            <option value="pre-season">🎪 Pre-Season Preview</option>
-            <option value="weekly">🏛️ Weekly Recap</option>
+            <option value="weekly_projections">⚔️ Weekly Matchup Projections</option>
+            <option value="weekly_recap">🏛️ Weekly Recap</option>
           </select>
         </div>
 
@@ -365,6 +210,48 @@ export default function CommissarPanel() {
             )}
           </button>
           
+          {/* Force Refresh Button */}
+          <button
+            onClick={async () => {
+              try {
+                console.log('🔄 Force refreshing data...')
+                const freshData = await fetchLatestRecap()
+                console.log('✅ Fresh data loaded:')
+                console.log('📊 Week:', freshData.week)
+                console.log('👥 Users:', freshData.users?.length || 0)
+                console.log('🏈 Rosters:', freshData.rosters?.length || 0)
+                console.log('⚔️ Matchups:', freshData.matchups?.length || 0)
+                
+                // Show sample of what we actually have
+                if (freshData.users && freshData.users.length > 0) {
+                  console.log('🔍 Sample users:', freshData.users.slice(0, 3).map(u => `${u.real_name}: ${u.team_name}`))
+                }
+                if (freshData.rosters && freshData.rosters.length > 0) {
+                  console.log('🔍 Sample rosters:', freshData.rosters.slice(0, 3).map(r => `${r.real_name}: ${r.team_name}`))
+                }
+                if (freshData.matchups && freshData.matchups.length > 0) {
+                  console.log('🔍 Sample matchups:', freshData.matchups.slice(0, 3).map(m => `${m.team_name_home} vs ${m.team_name_away}`))
+                }
+                
+                setError('✅ Data refreshed! Check console for details.')
+              } catch (err) {
+                console.error('❌ Refresh failed:', err)
+                setError(`Refresh failed: ${err.message}`)
+              }
+            }}
+            disabled={isLoading}
+            className={`
+              ml-4 px-4 py-3 font-mono text-sm font-medium rounded-md border
+              transition-all duration-200
+              ${isLoading 
+                ? 'bg-terminal-border text-terminal-fg/50 cursor-not-allowed' 
+                : 'bg-green-600/20 border-green-500 text-green-400 hover:bg-green-600/30'
+              }
+            `}
+          >
+            🔄 Force Refresh Data
+          </button>
+          
           {/* Test Button */}
           <button
             onClick={async () => {
@@ -373,19 +260,17 @@ export default function CommissarPanel() {
               setAnalysis('')
               
               try {
-                console.log('🧪 Testing with minimal data...')
-                const testData = {
-                  week: 1,
-                  league: { name: "Test League" },
-                  stats: {
-                    top_score: { manager: "@alex", real_name: "Alex", team_name: "Alex's Aces", points: 150 },
-                    low_score: { manager: "@sam", real_name: "Sam", team_name: "Sam's Spartans", points: 100 }
-                  }
-                }
+                console.log('🧪 Testing with current league data...')
+                const testData = await fetchLatestRecap()
                 
-                const testAnalysis = await generateCommissarAnalysis(testData, analysisContext)
-                setAnalysis(testAnalysis)
-                console.log('✅ Test analysis generated!')
+                if (testData.users && testData.users.length > 0) {
+                  console.log('✅ Using real league data for test')
+                  const testAnalysis = await generateCommissarAnalysis(testData, analysisContext)
+                  setAnalysis(testAnalysis)
+                  console.log('✅ Test analysis generated with real data!')
+                } else {
+                  throw new Error('No real league data available for testing')
+                }
               } catch (err) {
                 console.error('❌ Test failed:', err)
                 setError(`Test failed: ${err.message}`)
@@ -403,7 +288,7 @@ export default function CommissarPanel() {
               }
             `}
           >
-            🧪 Test OpenAI
+            🧪 Test with Real Data
           </button>
 
           {/* Supabase Test Button */}

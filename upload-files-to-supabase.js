@@ -37,14 +37,11 @@ async function uploadEssentialFiles() {
   const filesToUpload = [
     // Data files
     { local: 'weekly_summaries/latest.json', bucket: 'weekly_summaries', remote: 'latest.json' },
-    { local: 'weekly_summaries/post_draft_20250817_220605.json', bucket: 'weekly_summaries', remote: 'post_draft_20250817_220605.json' },
     
     // Sample data for documentation
     { local: 'sample-data.json', bucket: 'weekly_summaries', remote: 'sample-data.json' },
     
     // Generated recaps (most recent ones)
-    { local: 'commissar_draft_week1_2025-08-18T03-26-49-715Z.md', bucket: 'recaps', remote: 'draft_analysis.md' },
-    { local: 'commissar_pre-season_week1_2025-08-18T03-13-04-165Z.md', bucket: 'recaps', remote: 'pre_season_preview.md' },
     { local: 'commissar_weekly_week1_2025-08-18T03-16-05-848Z.md', bucket: 'recaps', remote: 'weekly_recap.md' }
   ]
 

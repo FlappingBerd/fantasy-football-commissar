@@ -7,6 +7,63 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 export async function fetchLatestRecap() {
   try {
+    console.log('🔍 Attempting to fetch from local weekly_summaries...')
+    
+    // First try to fetch from local weekly_summaries directory
+    try {
+      const timestamp = Date.now()
+      
+      // Try trimmed data first (reduces token usage)
+      let localResponse = await fetch(`/latest_trimmed.json?t=${timestamp}`)
+      if (localResponse.ok) {
+        const localData = await localResponse.json()
+        console.log('✅ Successfully loaded trimmed data from public directory')
+        console.log('📊 Local data structure:', Object.keys(localData))
+        console.log('👥 Users:', localData.users?.length || 0)
+        console.log('🏈 Rosters:', localData.rosters?.length || 0)
+        console.log('⚔️ Matchups:', localData.matchups?.length || 0)
+        return localData
+      }
+      
+      // Fallback to full data
+      localResponse = await fetch(`/latest.json?t=${timestamp}`)
+      if (localResponse.ok) {
+        const localData = await localResponse.json()
+        console.log('✅ Successfully loaded full data from public directory')
+        console.log('📊 Local data structure:', Object.keys(localData))
+        console.log('👥 Users:', localData.users?.length || 0)
+        console.log('🏈 Rosters:', localData.rosters?.length || 0)
+        console.log('⚔️ Matchups:', localData.matchups?.length || 0)
+        return localData
+      }
+      
+      // Fallback to parent directory
+      localResponse = await fetch(`/weekly_summaries/latest_trimmed.json?t=${timestamp}`)
+      if (localResponse.ok) {
+        const localData = await localResponse.json()
+        console.log('✅ Successfully loaded trimmed data from parent directory')
+        console.log('📊 Local data structure:', Object.keys(localData))
+        console.log('👥 Users:', localData.users?.length || 0)
+        console.log('🏈 Rosters:', localData.rosters?.length || 0)
+        console.log('⚔️ Matchups:', localData.matchups?.length || 0)
+        return localData
+      }
+      
+      localResponse = await fetch(`/weekly_summaries/latest.json?t=${timestamp}`)
+      if (localResponse.ok) {
+        const localData = await localResponse.json()
+        console.log('✅ Successfully loaded full data from parent directory')
+        console.log('📊 Local data structure:', Object.keys(localData))
+        console.log('👥 Users:', localData.users?.length || 0)
+        console.log('🏈 Rosters:', localData.rosters?.length || 0)
+        console.log('⚔️ Matchups:', localData.matchups?.length || 0)
+        return localData
+      }
+    } catch (localError) {
+      console.log('⚠️ Local fetch failed, trying Supabase:', localError.message)
+    }
+    
+    // Fallback to Supabase if local fetch fails
     console.log('🔍 Fetching from Supabase storage...')
     
     const { data, error } = await supabase.storage
@@ -22,13 +79,13 @@ export async function fetchLatestRecap() {
       throw new Error('No data received from Supabase')
     }
     
-    console.log('📄 Received data, parsing JSON...')
+    console.log('📄 Received data from Supabase, parsing JSON...')
     const jsonData = await data.text()
     console.log('📄 Raw data preview:', jsonData.substring(0, 100) + '...')
     
     try {
       const parsed = JSON.parse(jsonData)
-      console.log('✅ JSON parsed successfully')
+      console.log('✅ JSON parsed successfully from Supabase')
       return parsed
     } catch (parseError) {
       console.error('❌ JSON parse error:', parseError)

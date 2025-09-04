@@ -3,7 +3,7 @@
 /**
  * Simple script to generate a Commissar analysis from the command line
  * Usage: node generate-recap.js [context]
- * Contexts: draft, pre-season, weekly (default)
+ * Contexts: weekly_recap, weekly_projections (default: weekly_recap)
  */
 
 import OpenAI from 'openai'
@@ -40,7 +40,7 @@ async function generateCommissarAnalysis(leagueData, context = 'weekly') {
         },
         {
           role: "user",
-          content: `Generate a ${context} fantasy football analysis in the style of the Commissar of Competitive Balance. Provide balanced coverage across ALL teams and include a concise team-by-team roundup (one bullet per team). Avoid over-focusing on the same teams each week. Here is the league data:\n\n${JSON.stringify(leagueData, null, 2)}`
+          content: `Generate a ${context} fantasy football analysis in the style of the Commissar of Competitive Balance. Focus on the most dramatic matchups, big projections, and blowout predictions. Keep it concise and entertaining. Here is the league data:\n\n${JSON.stringify(leagueData, null, 2)}`
         }
       ],
       temperature: 0.9,

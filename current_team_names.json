@@ -1,0 +1,121 @@
+{
+  "timestamp": "2025-09-04T22:45:01.416Z",
+  "league_id": "1249366852329549824",
+  "league_name": "Internet Football League",
+  "team_names": {
+    "453989542328791040": "Call em Stalin",
+    "453991667477770240": "Ricky's Raging Kodiaks ",
+    "453991819093471232": "Shake Zula The Mic Rula",
+    "453996359956033536": "The Better Andrews",
+    "454008817642893312": "Satoshi Nakamoto",
+    "463903387998482432": "“GoBigGuyGoO”",
+    "731359615752744960": "Houthi PC small group",
+    "733010637621428224": "Betsy's_Pool",
+    "733525009175273472": "R U Freddie 4 sum 🏈",
+    "734131392270741504": "Schafer2121",
+    "852591286824316928": "rguerra19",
+    "996276793017540608": "Ana2187",
+    "1259690619337457664": "leevus",
+    "1260004968778178560": "Team Donny Does Damage"
+  },
+  "users": [
+    {
+      "user_id": "453989542328791040",
+      "handle": "@FlappingBird",
+      "real_name": "Call em Stalin",
+      "team_name": "Call em Stalin",
+      "display_name": "FlappingBird"
+    },
+    {
+      "user_id": "453991667477770240",
+      "handle": "@Kodiak",
+      "real_name": "Ricky's Raging Kodiaks ",
+      "team_name": "Ricky's Raging Kodiaks ",
+      "display_name": "Kodiak"
+    },
+    {
+      "user_id": "453991819093471232",
+      "handle": "@davis218",
+      "real_name": "Shake Zula The Mic Rula",
+      "team_name": "Shake Zula The Mic Rula",
+      "display_name": "davis218"
+    },
+    {
+      "user_id": "453996359956033536",
+      "handle": "@hannygeorge",
+      "real_name": "The Better Andrews",
+      "team_name": "The Better Andrews",
+      "display_name": "hannygeorge"
+    },
+    {
+      "user_id": "454008817642893312",
+      "handle": "@mLeggett",
+      "real_name": "Satoshi Nakamoto",
+      "team_name": "Satoshi Nakamoto",
+      "display_name": "mLeggett"
+    },
+    {
+      "user_id": "463903387998482432",
+      "handle": "@WhatayaZay",
+      "real_name": "“GoBigGuyGoO”",
+      "team_name": "“GoBigGuyGoO”",
+      "display_name": "WhatayaZay"
+    },
+    {
+      "user_id": "731359615752744960",
+      "handle": "@natezeff",
+      "real_name": "Houthi PC small group",
+      "team_name": "Houthi PC small group",
+      "display_name": "natezeff"
+    },
+    {
+      "user_id": "733010637621428224",
+      "handle": "@bdvabch",
+      "real_name": "Betsy's_Pool",
+      "team_name": "Betsy's_Pool",
+      "display_name": "bdvabch"
+    },
+    {
+      "user_id": "733525009175273472",
+      "handle": "@Freddie4sumball",
+      "real_name": "R U Freddie 4 sum 🏈",
+      "team_name": "R U Freddie 4 sum 🏈",
+      "display_name": "Freddie4sumball"
+    },
+    {
+      "user_id": "734131392270741504",
+      "handle": "@Schafer2121",
+      "real_name": "Schafer2121",
+      "team_name": "Schafer2121",
+      "display_name": "Schafer2121"
+    },
+    {
+      "user_id": "852591286824316928",
+      "handle": "@rguerra19",
+      "real_name": "rguerra19",
+      "team_name": "rguerra19",
+      "display_name": "rguerra19"
+    },
+    {
+      "user_id": "996276793017540608",
+      "handle": "@Ana2187",
+      "real_name": "Ana2187",
+      "team_name": "Ana2187",
+      "display_name": "Ana2187"
+    },
+    {
+      "user_id": "1259690619337457664",
+      "handle": "@leevus",
+      "real_name": "leevus",
+      "team_name": "leevus",
+      "display_name": "leevus"
+    },
+    {
+      "user_id": "1260004968778178560",
+      "handle": "@RenPetschke",
+      "real_name": "Team Donny Does Damage",
+      "team_name": "Team Donny Does Damage",
+      "display_name": "RenPetschke"
+    }
+  ]
+}
