@@ -61,9 +61,9 @@ function toFixed(n, d = 1) {
 
 // Get real name from current team name or display name
 function getRealName(user) {
-  // Use the current team name from Sleeper as the "real name"
-  // This ensures we always have the most up-to-date information
-  return getTeamName(user);
+  // Use display name, username, or team name as the "real name"
+  // Since Sleeper often has null display_name/username, fall back to team name
+  return user.display_name || user.username || getTeamName(user) || "Unknown Manager";
 }
 
 // Dynamic team name mapping - handles team name changes
@@ -308,7 +308,7 @@ function processRoster(roster, user, players) {
     owner_id: roster.owner_id,
     team_name: getTeamName(user),
     manager: handleFromUser(user),
-    real_name: getRealName(handleFromUser(user)),
+    real_name: getRealName(user),
     wins: roster.settings?.wins ?? 0,
     losses: roster.settings?.losses ?? 0,
     ties: roster.settings?.ties ?? 0,
@@ -716,7 +716,7 @@ async function buildWeeklyPayload() {
 }
 
 // Function to create a trimmed payload for OpenAI (reduces token usage)
-function createTrimmedPayload(fullPayload) {
+function createTrimmedPayload(fullPayload, context = 'weekly') {
   return {
     week: fullPayload.week,
     league: {
@@ -734,7 +734,20 @@ function createTrimmedPayload(fullPayload) {
       wins: r.wins,
       losses: r.losses,
       fpts: r.fpts,
-      playoff_position: r.playoff_position
+      playoff_position: r.playoff_position,
+      // Include roster details for season kickoff
+      ...(context === 'season_kickoff' && {
+        starters: r.starters?.map(player => ({
+          name: player.name,
+          position: player.position,
+          team: player.team
+        })) || [],
+        bench: r.bench?.slice(0, 3).map(player => ({
+          name: player.name,
+          position: player.position,
+          team: player.team
+        })) || []
+      })
     })),
     matchups: fullPayload.matchups.map(m => ({
       team_name_home: m.team_name_home,
@@ -784,8 +797,18 @@ buildWeeklyPayload()
     fs.writeFileSync(latestFile, JSON.stringify(p.full, null, 2));
     fs.writeFileSync(trimmedFile, JSON.stringify(p.trimmed, null, 2));
     
+    // Also copy to frontend public directory for immediate access
+    const frontendPublicDir = path.join(__dirname, '..', 'frontend', 'public');
+    const frontendLatestFile = path.join(frontendPublicDir, 'latest.json');
+    const frontendTrimmedFile = path.join(frontendPublicDir, 'latest_trimmed.json');
+    
+    fs.writeFileSync(frontendLatestFile, JSON.stringify(p.full, null, 2));
+    fs.writeFileSync(frontendTrimmedFile, JSON.stringify(p.trimmed, null, 2));
+    
     console.error(`💾 Saved full data to: ${latestFile}`);
     console.error(`💾 Saved trimmed data to: ${trimmedFile}`);
+    console.error(`🚀 Copied to frontend: ${frontendLatestFile}`);
+    console.error(`🚀 Copied to frontend: ${frontendTrimmedFile}`);
     console.error(`📊 Full payload size: ${JSON.stringify(p.full).length} characters`);
     console.error(`📊 Trimmed payload size: ${JSON.stringify(p.trimmed).length} characters`);
   })

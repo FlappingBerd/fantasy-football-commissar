@@ -36,6 +36,8 @@ export default function CommissarPanel() {
         return 'Weekly Matchup Projections'
       case 'weekly_recap':
         return 'Weekly Recap'
+      case 'season_kickoff':
+        return 'Season Kickoff'
       default:
         return 'Analysis'
     }
@@ -48,55 +50,25 @@ export default function CommissarPanel() {
 
     try {
       // Try to fetch latest data from Supabase
-      console.log('📡 Fetching latest league data...')
       let leagueData
       
       try {
-        leagueData = await fetchLatestRecap()
-        console.log('✅ Successfully fetched league data')
-        console.log('📊 League data structure:', Object.keys(leagueData))
-        console.log('👥 Number of users:', leagueData.users?.length || 0)
-        console.log('🏈 Number of rosters:', leagueData.rosters?.length || 0)
-        console.log('⚔️ Number of matchups:', leagueData.matchups?.length || 0)
-        console.log('🔍 Sample users:', leagueData.users?.slice(0, 3).map(u => u.real_name))
-        console.log('🔍 Sample rosters:', leagueData.rosters?.slice(0, 3).map(r => r.real_name))
-        
-        // Check if we have enhanced matchup data
-        if (leagueData.matchups && leagueData.matchups.length > 0) {
-          const hasEnhancedData = leagueData.matchups.some(m => m.is_key_matchup !== undefined)
-          console.log('🔍 Enhanced matchup data:', hasEnhancedData ? 'YES' : 'NO')
-          if (hasEnhancedData) {
-            console.log('🎯 Key matchups found:', leagueData.matchups.filter(m => m.is_key_matchup).length)
-          }
-        }
-        
+        leagueData = await fetchLatestRecap(analysisContext)
         setCurrentWeek(leagueData.week || 1)
       } catch (fetchError) {
-        console.log('⚠️ Data fetch failed, using minimal fallback:', fetchError.message)
-        console.log('🔍 Fetch error details:', fetchError)
         leagueData = fallbackData
-        console.log('🔄 Using minimal fallback data')
       }
       
-      
       // Generate commissar analysis
-      console.log(`🎭 Generating ${analysisContext} analysis...`)
-      console.log('📤 Data source:', leagueData === fallbackData ? 'FALLBACK' : 'SUPABASE')
-      console.log('📤 Sending data to OpenAI:', JSON.stringify(leagueData, null, 2).substring(0, 500) + '...')
-      
       const commissarAnalysis = await generateCommissarAnalysis(leagueData, analysisContext)
-      
-      console.log('📝 Received analysis from OpenAI:', commissarAnalysis.substring(0, 200) + '...')
       
       if (!commissarAnalysis || commissarAnalysis.trim() === '') {
         throw new Error('OpenAI returned an empty response')
       }
       
       setAnalysis(commissarAnalysis)
-      console.log('✅ Analysis generated successfully')
       
     } catch (error) {
-      console.error('❌ Error generating analysis:', error)
       setError(`ERROR: ${error.message}`)
     } finally {
       setIsLoading(false)
@@ -109,14 +81,12 @@ export default function CommissarPanel() {
     setIsSaving(true)
     try {
       const result = await saveCommissarRecap(analysis, currentWeek)
-      console.log('✅ Analysis saved:', result.filename)
       
       // Refresh the list of saved recaps
       await loadSavedRecaps()
       
       alert(`Analysis saved as: ${result.filename}`)
     } catch (err) {
-      console.error('❌ Error saving analysis:', err)
       setError(`Failed to save analysis: ${err.message}`)
     } finally {
       setIsSaving(false)
@@ -128,7 +98,7 @@ export default function CommissarPanel() {
       const recaps = await listSavedRecaps()
       setSavedRecaps(recaps)
     } catch (err) {
-      console.error('❌ Error loading saved recaps:', err)
+      // Silently handle error - recaps are optional
     }
   }
 
@@ -144,7 +114,6 @@ export default function CommissarPanel() {
         document.title = originalText
       }, 2000)
     } catch (err) {
-      console.error('❌ Error copying to clipboard:', err)
       // Fallback for older browsers
       const textArea = document.createElement('textarea')
       textArea.value = analysis
@@ -183,6 +152,7 @@ export default function CommissarPanel() {
           >
             <option value="weekly_projections">⚔️ Weekly Matchup Projections</option>
             <option value="weekly_recap">🏛️ Weekly Recap</option>
+            <option value="season_kickoff">🚀 Season Kickoff</option>
           </select>
         </div>
 
@@ -214,28 +184,9 @@ export default function CommissarPanel() {
           <button
             onClick={async () => {
               try {
-                console.log('🔄 Force refreshing data...')
-                const freshData = await fetchLatestRecap()
-                console.log('✅ Fresh data loaded:')
-                console.log('📊 Week:', freshData.week)
-                console.log('👥 Users:', freshData.users?.length || 0)
-                console.log('🏈 Rosters:', freshData.rosters?.length || 0)
-                console.log('⚔️ Matchups:', freshData.matchups?.length || 0)
-                
-                // Show sample of what we actually have
-                if (freshData.users && freshData.users.length > 0) {
-                  console.log('🔍 Sample users:', freshData.users.slice(0, 3).map(u => `${u.real_name}: ${u.team_name}`))
-                }
-                if (freshData.rosters && freshData.rosters.length > 0) {
-                  console.log('🔍 Sample rosters:', freshData.rosters.slice(0, 3).map(r => `${r.real_name}: ${r.team_name}`))
-                }
-                if (freshData.matchups && freshData.matchups.length > 0) {
-                  console.log('🔍 Sample matchups:', freshData.matchups.slice(0, 3).map(m => `${m.team_name_home} vs ${m.team_name_away}`))
-                }
-                
-                setError('✅ Data refreshed! Check console for details.')
+                await fetchLatestRecap()
+                setError('✅ Data refreshed successfully!')
               } catch (err) {
-                console.error('❌ Refresh failed:', err)
                 setError(`Refresh failed: ${err.message}`)
               }
             }}
@@ -250,74 +201,6 @@ export default function CommissarPanel() {
             `}
           >
             🔄 Force Refresh Data
-          </button>
-          
-          {/* Test Button */}
-          <button
-            onClick={async () => {
-              setIsLoading(true)
-              setError('')
-              setAnalysis('')
-              
-              try {
-                console.log('🧪 Testing with current league data...')
-                const testData = await fetchLatestRecap()
-                
-                if (testData.users && testData.users.length > 0) {
-                  console.log('✅ Using real league data for test')
-                  const testAnalysis = await generateCommissarAnalysis(testData, analysisContext)
-                  setAnalysis(testAnalysis)
-                  console.log('✅ Test analysis generated with real data!')
-                } else {
-                  throw new Error('No real league data available for testing')
-                }
-              } catch (err) {
-                console.error('❌ Test failed:', err)
-                setError(`Test failed: ${err.message}`)
-              } finally {
-                setIsLoading(false)
-              }
-            }}
-            disabled={isLoading}
-            className={`
-              ml-4 px-4 py-3 font-mono text-sm font-medium rounded-md border
-              transition-all duration-200
-              ${isLoading 
-                ? 'bg-terminal-border text-terminal-fg/50 cursor-not-allowed' 
-                : 'bg-yellow-600/20 border-yellow-500 text-yellow-400 hover:bg-yellow-600/30'
-              }
-            `}
-          >
-            🧪 Test with Real Data
-          </button>
-
-          {/* Supabase Test Button */}
-          <button
-            onClick={async () => {
-              try {
-                console.log('🔍 Testing Supabase connection...')
-                const testData = await fetchLatestRecap()
-                console.log('✅ Supabase test successful!')
-                console.log('📊 Data keys:', Object.keys(testData))
-                console.log('👥 Users:', testData.users?.length || 0)
-                console.log('🏈 Rosters:', testData.rosters?.length || 0)
-                setError('✅ Supabase connection successful! Check console for details.')
-              } catch (err) {
-                console.error('❌ Supabase test failed:', err)
-                setError(`Supabase test failed: ${err.message}`)
-              }
-            }}
-            disabled={isLoading}
-            className={`
-              ml-4 px-4 py-3 font-mono text-sm font-medium rounded-md border
-              transition-all duration-200
-              ${isLoading 
-                ? 'bg-terminal-border text-terminal-fg/50 cursor-not-allowed' 
-                : 'bg-blue-600/20 border-blue-500 text-blue-400 hover:bg-blue-600/30'
-              }
-            `}
-          >
-            🔍 Test Supabase
           </button>
         </div>
 

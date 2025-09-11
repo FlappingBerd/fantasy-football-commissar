@@ -1,77 +1,71 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = 'https://fkmyrnlnodstltxkesfm.supabase.co'
-const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZrbXlybmxub2RzdGx0eGtlc2ZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU0ODIzOTAsImV4cCI6MjA3MTA1ODM5MH0.XUaKJCJcZoxGnwWWwCab-YWYY0gS-lQ3qYsyufYsYso'
+// Use environment variables for security
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Missing Supabase environment variables. Please check your .env file.')
+}
 
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
-export async function fetchLatestRecap() {
+export async function fetchLatestRecap(context = 'weekly') {
   try {
-    console.log('🔍 Attempting to fetch from local weekly_summaries...')
-    
     // First try to fetch from local weekly_summaries directory
     try {
       const timestamp = Date.now()
       
-      // Try trimmed data first (reduces token usage)
-      let localResponse = await fetch(`/latest_trimmed.json?t=${timestamp}`)
-      if (localResponse.ok) {
-        const localData = await localResponse.json()
-        console.log('✅ Successfully loaded trimmed data from public directory')
-        console.log('📊 Local data structure:', Object.keys(localData))
-        console.log('👥 Users:', localData.users?.length || 0)
-        console.log('🏈 Rosters:', localData.rosters?.length || 0)
-        console.log('⚔️ Matchups:', localData.matchups?.length || 0)
-        return localData
-      }
+      // For season kickoff, prefer full data (includes roster details)
+      // For other contexts, prefer trimmed data (reduces token usage)
+      const preferFullData = context === 'season_kickoff'
       
-      // Fallback to full data
-      localResponse = await fetch(`/latest.json?t=${timestamp}`)
-      if (localResponse.ok) {
-        const localData = await localResponse.json()
-        console.log('✅ Successfully loaded full data from public directory')
-        console.log('📊 Local data structure:', Object.keys(localData))
-        console.log('👥 Users:', localData.users?.length || 0)
-        console.log('🏈 Rosters:', localData.rosters?.length || 0)
-        console.log('⚔️ Matchups:', localData.matchups?.length || 0)
-        return localData
+      if (preferFullData) {
+        // Try full data first for season kickoff
+        let localResponse = await fetch(`/latest.json?t=${timestamp}`)
+        if (localResponse.ok) {
+          return await localResponse.json()
+        }
+        
+        // Fallback to trimmed data
+        localResponse = await fetch(`/latest_trimmed.json?t=${timestamp}`)
+        if (localResponse.ok) {
+          return await localResponse.json()
+        }
+      } else {
+        // Try trimmed data first for other contexts
+        let localResponse = await fetch(`/latest_trimmed.json?t=${timestamp}`)
+        if (localResponse.ok) {
+          return await localResponse.json()
+        }
+        
+        // Fallback to full data
+        localResponse = await fetch(`/latest.json?t=${timestamp}`)
+        if (localResponse.ok) {
+          return await localResponse.json()
+        }
       }
       
       // Fallback to parent directory
-      localResponse = await fetch(`/weekly_summaries/latest_trimmed.json?t=${timestamp}`)
+      let localResponse = await fetch(`/weekly_summaries/latest_trimmed.json?t=${timestamp}`)
       if (localResponse.ok) {
-        const localData = await localResponse.json()
-        console.log('✅ Successfully loaded trimmed data from parent directory')
-        console.log('📊 Local data structure:', Object.keys(localData))
-        console.log('👥 Users:', localData.users?.length || 0)
-        console.log('🏈 Rosters:', localData.rosters?.length || 0)
-        console.log('⚔️ Matchups:', localData.matchups?.length || 0)
-        return localData
+        return await localResponse.json()
       }
       
       localResponse = await fetch(`/weekly_summaries/latest.json?t=${timestamp}`)
       if (localResponse.ok) {
-        const localData = await localResponse.json()
-        console.log('✅ Successfully loaded full data from parent directory')
-        console.log('📊 Local data structure:', Object.keys(localData))
-        console.log('👥 Users:', localData.users?.length || 0)
-        console.log('🏈 Rosters:', localData.rosters?.length || 0)
-        console.log('⚔️ Matchups:', localData.matchups?.length || 0)
-        return localData
+        return await localResponse.json()
       }
     } catch (localError) {
-      console.log('⚠️ Local fetch failed, trying Supabase:', localError.message)
+      // Local fetch failed, will try Supabase
     }
     
     // Fallback to Supabase if local fetch fails
-    console.log('🔍 Fetching from Supabase storage...')
-    
     const { data, error } = await supabase.storage
       .from('weekly_summaries')
       .download('latest.json')
     
     if (error) {
-      console.error('❌ Supabase error:', error)
       throw new Error(`Supabase error: ${error.message}`)
     }
     
@@ -79,22 +73,16 @@ export async function fetchLatestRecap() {
       throw new Error('No data received from Supabase')
     }
     
-    console.log('📄 Received data from Supabase, parsing JSON...')
     const jsonData = await data.text()
-    console.log('📄 Raw data preview:', jsonData.substring(0, 100) + '...')
     
     try {
-      const parsed = JSON.parse(jsonData)
-      console.log('✅ JSON parsed successfully from Supabase')
-      return parsed
+      return JSON.parse(jsonData)
     } catch (parseError) {
-      console.error('❌ JSON parse error:', parseError)
-      console.error('📄 Raw data that failed to parse:', jsonData)
       throw new Error(`JSON Parse error: ${parseError.message}`)
     }
     
   } catch (error) {
-    console.error('❌ Failed to fetch latest recap:', error)
+    console.error('Failed to fetch latest recap:', error)
     throw error
   }
 }
@@ -109,13 +97,11 @@ export async function uploadRecap(jsonData) {
       })
     
     if (error) {
-      console.error('Error uploading recap:', error)
       throw error
     }
     
     return data
   } catch (error) {
-    console.error('Failed to upload recap:', error)
     throw error
   }
 }
@@ -126,8 +112,6 @@ export async function saveCommissarRecap(recapText, week = 1) {
     const timestamp = new Date().toISOString().split('T')[0]
     const filename = `commissar_recap_week_${week}_${timestamp}.md`
     
-    console.log('💾 Saving Commissar recap to Supabase...')
-    
     const { data, error } = await supabase.storage
       .from('recaps')
       .upload(filename, recapText, {
@@ -136,15 +120,12 @@ export async function saveCommissarRecap(recapText, week = 1) {
       })
     
     if (error) {
-      console.error('❌ Error saving recap:', error)
       throw new Error(`Failed to save recap: ${error.message}`)
     }
     
-    console.log('✅ Recap saved successfully:', filename)
     return { filename, data }
     
   } catch (error) {
-    console.error('❌ Failed to save recap:', error)
     throw error
   }
 }
@@ -157,13 +138,11 @@ export async function listSavedRecaps() {
       .list()
     
     if (error) {
-      console.error('❌ Error listing recaps:', error)
       throw error
     }
     
     return data || []
   } catch (error) {
-    console.error('❌ Failed to list recaps:', error)
     throw error
   }
 }
@@ -176,14 +155,12 @@ export async function downloadRecap(filename) {
       .download(filename)
     
     if (error) {
-      console.error('❌ Error downloading recap:', error)
       throw error
     }
     
     const text = await data.text()
     return text
   } catch (error) {
-    console.error('❌ Failed to download recap:', error)
     throw error
   }
 } 
