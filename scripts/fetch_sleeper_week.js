@@ -715,14 +715,65 @@ async function buildWeeklyPayload() {
   };
 }
 
+// Function to load historical weekly data for comparison
+function loadHistoricalWeekData(currentWeek) {
+  const weeklyDir = path.join(__dirname, '..', 'weekly_summaries');
+  const historicalData = {};
+  
+  // Load previous 3 weeks for comparison (or fewer if they don't exist)
+  for (let i = 1; i <= 3; i++) {
+    const previousWeek = currentWeek - i;
+    if (previousWeek >= 1) {
+      const previousWeekFile = path.join(weeklyDir, `week_${previousWeek}_trimmed.json`);
+      try {
+        if (fs.existsSync(previousWeekFile)) {
+          const previousData = JSON.parse(fs.readFileSync(previousWeekFile, 'utf8'));
+          historicalData[`week_${previousWeek}`] = {
+            week: previousData.week,
+            rosters: previousData.rosters?.map(r => ({
+              team_name: r.team_name,
+              real_name: r.real_name,
+              wins: r.wins,
+              losses: r.losses,
+              fpts: r.fpts,
+              playoff_position: r.playoff_position
+            })) || [],
+            matchups: previousData.matchups?.map(m => ({
+              team_name_home: m.team_name_home,
+              team_name_away: m.team_name_away,
+              real_name_home: m.real_name_home,
+              real_name_away: m.real_name_away,
+              points_home: m.points_home,
+              points_away: m.points_away
+            })) || [],
+            stats: {
+              top_score: previousData.stats?.top_score,
+              power_rankings: previousData.stats?.power_rankings?.slice(0, 5) || []
+            }
+          };
+        }
+      } catch (error) {
+        console.log(`⚠️ Could not load week ${previousWeek} data: ${error.message}`);
+      }
+    }
+  }
+  
+  return historicalData;
+}
+
 // Function to create a trimmed payload for OpenAI (reduces token usage)
 function createTrimmedPayload(fullPayload, context = 'weekly') {
+  // Load historical data for week-over-week analysis
+  const historicalData = loadHistoricalWeekData(parseInt(fullPayload.week));
+  
   return {
     week: fullPayload.week,
+    week_type: fullPayload.week_type,
     league: {
       name: fullPayload.league.name,
       season: fullPayload.league.season
     },
+    historical_weeks: historicalData,
     users: fullPayload.users.map(u => ({
       user_id: u.user_id,
       real_name: u.real_name,
@@ -794,8 +845,14 @@ buildWeeklyPayload()
     const latestFile = path.join(weeklyDir, 'latest.json');
     const trimmedFile = path.join(weeklyDir, 'latest_trimmed.json');
     
+    // Also save week-specific versions for historical tracking
+    const weekSpecificFile = path.join(weeklyDir, `week_${p.full.week}.json`);
+    const weekSpecificTrimmedFile = path.join(weeklyDir, `week_${p.full.week}_trimmed.json`);
+    
     fs.writeFileSync(latestFile, JSON.stringify(p.full, null, 2));
     fs.writeFileSync(trimmedFile, JSON.stringify(p.trimmed, null, 2));
+    fs.writeFileSync(weekSpecificFile, JSON.stringify(p.full, null, 2));
+    fs.writeFileSync(weekSpecificTrimmedFile, JSON.stringify(p.trimmed, null, 2));
     
     // Also copy to frontend public directory for immediate access
     const frontendPublicDir = path.join(__dirname, '..', 'frontend', 'public');

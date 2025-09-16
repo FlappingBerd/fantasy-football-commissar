@@ -40,7 +40,7 @@ async function generateCommissarAnalysis(leagueData, context = 'weekly') {
         },
         {
           role: "user",
-          content: `Generate a ${context} fantasy football analysis in the style of the Commissar of Competitive Balance. Focus on the most dramatic matchups, big projections, and blowout predictions. Keep it concise and entertaining. Here is the league data:\n\n${JSON.stringify(leagueData, null, 2)}`
+          content: `Generate a ${context} fantasy football analysis in the style of the Commissar of Competitive Balance. ${context === 'weekly' ? 'Focus on actual matchup results, standings changes, and week-over-week trends using the historical_weeks data provided.' : 'Focus on the most dramatic matchups, big projections, and blowout predictions.'} Keep it concise and entertaining. Here is the league data:\n\n${JSON.stringify(leagueData, null, 2)}`
         }
       ],
       temperature: 0.9,
