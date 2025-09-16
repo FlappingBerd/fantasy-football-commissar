@@ -1,21 +1,93 @@
-MIT License
+PROPRIETARY SOFTWARE LICENSE AGREEMENT
+Fantasy Football Commissar - AI-Powered Analysis System
 
-Copyright (c) 2024 Fantasy Football Commissar
+Copyright (c) 2024 Fantasy Football Commissar. All Rights Reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+IMPORTANT: READ CAREFULLY BEFORE USING THIS SOFTWARE
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+This is a proprietary software license agreement ("Agreement") between you ("Licensee") 
+and Fantasy Football Commissar ("Licensor"). By accessing, downloading, installing, 
+or using this software, you agree to be bound by the terms of this Agreement.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE. 
+1. GRANT OF LICENSE
+   Subject to the terms and conditions of this Agreement, Licensor hereby grants 
+   Licensee a limited, non-exclusive, non-transferable, revocable license to use 
+   the Fantasy Football Commissar software ("Software") solely for personal, 
+   non-commercial purposes.
+
+2. RESTRICTIONS
+   Licensee SHALL NOT:
+   a) Use the Software for any commercial purpose without explicit written permission
+   b) Modify, adapt, or create derivative works based on the Software
+   c) Reverse engineer, decompile, disassemble, or attempt to derive source code
+   d) Distribute, sublicense, rent, lease, or sell the Software
+   e) Remove or alter any copyright, trademark, or proprietary notices
+   f) Use the Software to compete with or harm Licensor's business interests
+   g) Share login credentials or access with unauthorized users
+   h) Use the Software in violation of any applicable laws or regulations
+
+3. INTELLECTUAL PROPERTY
+   The Software and all related materials, including but not limited to:
+   - Source code, algorithms, and technical implementations
+   - AI prompts, analysis frameworks, and content generation systems
+   - User interface designs, layouts, and styling
+   - Documentation, guides, and instructional materials
+   - Trademarks, logos, and branding elements
+   
+   Are and shall remain the exclusive property of Licensor. This Agreement does not 
+   grant Licensee any ownership rights in the Software.
+
+4. COMMERCIAL USE PROHIBITION
+   Commercial use is STRICTLY PROHIBITED without a separate commercial license. 
+   Commercial use includes but is not limited to:
+   - Using the Software to provide services to third parties
+   - Integrating the Software into commercial products or services
+   - Generating revenue directly or indirectly from the Software
+   - Using the Software in a business, educational institution, or organization
+   - Any use that competes with Licensor's commercial offerings
+
+5. DATA AND PRIVACY
+   Licensee acknowledges that the Software may process personal and league data.
+   Licensee is responsible for ensuring compliance with all applicable privacy laws
+   and obtaining necessary consents before using the Software with third-party data.
+
+6. TERMINATION
+   This license is effective until terminated. Licensor may terminate this Agreement
+   immediately without notice if Licensee breaches any terms. Upon termination,
+   Licensee must cease all use of the Software and destroy all copies.
+
+7. DISCLAIMER OF WARRANTIES
+   THE SOFTWARE IS PROVIDED "AS IS" WITHOUT WARRANTY OF ANY KIND. LICENSOR 
+   DISCLAIMS ALL WARRANTIES, EXPRESS OR IMPLIED, INCLUDING MERCHANTABILITY, 
+   FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+
+8. LIMITATION OF LIABILITY
+   IN NO EVENT SHALL LICENSOR BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+   SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, INCLUDING LOSS OF PROFITS,
+   DATA, OR USE, ARISING FROM OR RELATED TO THIS SOFTWARE.
+
+9. INDEMNIFICATION
+   Licensee agrees to indemnify and hold harmless Licensor from any claims,
+   damages, or expenses arising from Licensee's use of the Software or violation
+   of this Agreement.
+
+10. GOVERNING LAW
+    This Agreement shall be governed by the laws of [Your Jurisdiction] without
+    regard to conflict of law principles.
+
+11. ENTIRE AGREEMENT
+    This Agreement constitutes the entire agreement between the parties and
+    supersedes all prior agreements relating to the Software.
+
+12. SEVERABILITY
+    If any provision of this Agreement is deemed invalid, the remaining provisions
+    shall remain in full force and effect.
+
+13. CONTACT INFORMATION
+    For questions about this license or to request commercial licensing terms,
+    contact: [Your Contact Information]
+
+BY USING THIS SOFTWARE, YOU ACKNOWLEDGE THAT YOU HAVE READ AND UNDERSTAND THIS
+AGREEMENT AND AGREE TO BE BOUND BY ITS TERMS AND CONDITIONS.
+
+Violation of this license may result in legal action and monetary damages. 

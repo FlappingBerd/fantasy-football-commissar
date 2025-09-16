@@ -9,9 +9,9 @@
     "fetch-recap": "node scripts/fetch_sleeper_week.js --mode recap",
     "fetch-projections": "node scripts/fetch_sleeper_week.js --mode projections",
     "generate": "node generate-recap.js",
+    "generate-kickoff": "node generate-recap.js season_kickoff",
     "update-names": "node scripts/update_team_names.js",
-    "test": "node test-openai-headless.js",
-    "fix-supabase": "node fix-supabase-upload.js",
+    "check-names": "node scripts/check_team_names.js",
     "dev": "cd frontend && npm run dev",
     "build": "cd frontend && npm run build",
     "preview": "cd frontend && npm run preview"
@@ -26,7 +26,7 @@
     "satire"
   ],
   "author": "Fantasy Football Commissar",
-  "license": "MIT",
+  "license": "PROPRIETARY",
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",
     "dotenv": "^16.3.1",
