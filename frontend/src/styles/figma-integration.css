@@ -1,0 +1,232 @@
+/* 
+ * FIGMA INTEGRATION STYLES
+ * This file contains styles that will be replaced when Figma designs are implemented
+ * Currently contains placeholder styles that maintain the existing terminal theme
+ */
+
+/* 
+ * FIGMA LAYOUT SYSTEM
+ * These classes will be replaced with Figma's layout specifications
+ */
+
+.figma-container {
+  /* Placeholder - will be replaced with Figma container styles */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.figma-grid {
+  /* Placeholder - will be replaced with Figma grid system */
+  display: grid;
+  gap: 1rem;
+}
+
+.figma-grid-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.figma-grid-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.figma-grid-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.figma-flex {
+  /* Placeholder - will be replaced with Figma flexbox specifications */
+  display: flex;
+  gap: 1rem;
+}
+
+.figma-flex-col {
+  flex-direction: column;
+}
+
+.figma-flex-row {
+  flex-direction: row;
+}
+
+.figma-flex-center {
+  align-items: center;
+  justify-content: center;
+}
+
+.figma-flex-between {
+  justify-content: space-between;
+}
+
+.figma-flex-start {
+  justify-content: flex-start;
+}
+
+.figma-flex-end {
+  justify-content: flex-end;
+}
+
+/* 
+ * FIGMA RESPONSIVE BREAKPOINTS
+ * These will be replaced with Figma's responsive specifications
+ */
+
+@media (max-width: 768px) {
+  .figma-container {
+    padding: 0 0.5rem;
+  }
+  
+  .figma-grid-2,
+  .figma-grid-3,
+  .figma-grid-4 {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .figma-grid-3,
+  .figma-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 
+ * FIGMA ANIMATION SYSTEM
+ * These will be replaced with Figma's animation specifications
+ */
+
+.figma-fade-in {
+  /* Placeholder - will be replaced with Figma fade animations */
+  animation: figma-fade-in 0.3s ease-in-out;
+}
+
+.figma-slide-up {
+  /* Placeholder - will be replaced with Figma slide animations */
+  animation: figma-slide-up 0.3s ease-out;
+}
+
+.figma-scale-in {
+  /* Placeholder - will be replaced with Figma scale animations */
+  animation: figma-scale-in 0.2s ease-out;
+}
+
+@keyframes figma-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes figma-slide-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes figma-scale-in {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* 
+ * FIGMA COMPONENT STATES
+ * These will be replaced with Figma's component state specifications
+ */
+
+.figma-hover {
+  /* Placeholder - will be replaced with Figma hover states */
+  transition: all 0.2s ease-in-out;
+}
+
+.figma-hover:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.figma-focus {
+  /* Placeholder - will be replaced with Figma focus states */
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(46, 160, 67, 0.1);
+}
+
+.figma-active {
+  /* Placeholder - will be replaced with Figma active states */
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.figma-disabled {
+  /* Placeholder - will be replaced with Figma disabled states */
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* 
+ * FIGMA UTILITY CLASSES
+ * These will be replaced with Figma's utility specifications
+ */
+
+.figma-text-center {
+  text-align: center;
+}
+
+.figma-text-left {
+  text-align: left;
+}
+
+.figma-text-right {
+  text-align: right;
+}
+
+.figma-hidden {
+  display: none;
+}
+
+.figma-visible {
+  display: block;
+}
+
+.figma-overflow-hidden {
+  overflow: hidden;
+}
+
+.figma-overflow-auto {
+  overflow: auto;
+}
+
+.figma-rounded {
+  border-radius: 0.375rem;
+}
+
+.figma-rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.figma-rounded-xl {
+  border-radius: 0.75rem;
+}
+
+.figma-shadow {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.figma-shadow-lg {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.figma-shadow-xl {
+  box-shadow: 0 20px 25px rgba(0, 0, 0, 0.1);
+}

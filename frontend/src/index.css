@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
 
+/* Import Figma-ready design system */
+@import './styles/design-tokens.css';
+@import './styles/figma-integration.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
