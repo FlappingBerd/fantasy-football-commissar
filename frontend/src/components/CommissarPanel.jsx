@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
-import { fetchLatestRecap, uploadRecap, saveCommissarRecap, listSavedRecaps, downloadRecap } from '../lib/supabase'
+import { fetchLatestRecap, uploadRecap, saveCommissarRecap, listSavedRecaps, downloadRecap, fetchSleeperData } from '../lib/supabase'
 import { generateCommissarAnalysis } from '../lib/openai'
 
 // Fallback data in case both local and Supabase are unavailable
@@ -23,6 +23,9 @@ export default function CommissarPanel() {
   const [isSaving, setIsSaving] = useState(false)
   const [currentWeek, setCurrentWeek] = useState(1)
   const [analysisContext, setAnalysisContext] = useState('weekly_recap')
+  
+  // Configuration - you can change this league ID here
+  const LEAGUE_ID = '1249366852329549824'
 
   // Load saved recaps on component mount
   useEffect(() => {
@@ -49,14 +52,42 @@ export default function CommissarPanel() {
     setAnalysis('')
 
     try {
-      // Try to fetch latest data from Supabase
+      // Use configured league ID
+      const leagueId = import.meta.env.VITE_SLEEPER_LEAGUE_ID || LEAGUE_ID
+      
+      console.log('Using league ID:', leagueId)
+      
       let leagueData
       
       try {
-        leagueData = await fetchLatestRecap(analysisContext)
+        // For weekly recaps, fetch previous week's data
+        if (analysisContext === 'weekly_recap') {
+          // Get current week first
+          const currentWeekData = await fetchSleeperData(leagueId)
+          const currentWeek = parseInt(currentWeekData.week)
+          const previousWeek = currentWeek - 1
+          
+          if (previousWeek > 0) {
+            leagueData = await fetchSleeperData(leagueId, previousWeek)
+          } else {
+            leagueData = currentWeekData
+          }
+        } else {
+          // For other contexts, fetch current week data
+          leagueData = await fetchSleeperData(leagueId)
+        }
+        
         setCurrentWeek(leagueData.week || 1)
+        console.log('Sleeper API data fetched successfully:', leagueData)
       } catch (fetchError) {
-        leagueData = fallbackData
+        console.error('Sleeper API fetch failed, trying fallback:', fetchError)
+        // Fallback to local data if Sleeper API fails
+        try {
+          leagueData = await fetchLatestRecap(analysisContext)
+          setCurrentWeek(leagueData.week || 1)
+        } catch (localError) {
+          leagueData = fallbackData
+        }
       }
       
       // Generate commissar analysis
@@ -173,7 +204,7 @@ export default function CommissarPanel() {
             {isLoading ? (
               <span className="flex items-center gap-2">
                 <div className="w-4 h-4 border-2 border-terminal-accent/30 border-t-terminal-accent rounded-full animate-spin"></div>
-                Generating {getContextLabel(analysisContext)}...
+                Fetching fresh data & generating {getContextLabel(analysisContext)}...
               </span>
             ) : (
               `🚨 Generate ${getContextLabel(analysisContext)}`
@@ -303,7 +334,10 @@ export default function CommissarPanel() {
               Select an analysis type and click the button above to generate your fantasy football analysis
             </p>
             <p className="font-mono text-xs mt-2">
-              The Commissar will analyze your league data and deliver a satirical report
+              The Commissar will fetch fresh data from Sleeper API and deliver a satirical report
+            </p>
+            <p className="font-mono text-xs mt-1">
+              Weekly recaps analyze the previous week's completed games
             </p>
             <p className="font-mono text-xs mt-1">
               Generated analyses can be saved to Supabase for future reference

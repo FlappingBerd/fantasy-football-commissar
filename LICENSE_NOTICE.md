@@ -51,3 +51,4 @@ This software was previously licensed under the MIT License, which was very perm
 ---
 
 **READ THE FULL LICENSE AGREEMENT IN THE `LICENSE` FILE BEFORE USING THIS SOFTWARE.**
+

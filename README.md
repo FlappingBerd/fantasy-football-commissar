@@ -98,7 +98,9 @@ fantasy-weekly-updates/
 3. **Environment Setup**
    ```bash
    # Create .env file in root directory
-   cp .env.example .env
+   cp .env.example .
+   
+   
    
    # Add your API keys
    OPENAI_API_KEY=your_openai_key
