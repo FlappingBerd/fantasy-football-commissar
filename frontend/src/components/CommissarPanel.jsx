@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import ReactMarkdown from 'react-markdown'
 import { fetchLatestRecap, uploadRecap, saveCommissarRecap, listSavedRecaps, downloadRecap, fetchSleeperData } from '../lib/supabase'
 import { generateCommissarAnalysis } from '../lib/openai'
+import { personas, getPersonaPrompt } from '../lib/personas'
 
 // Fallback data in case both local and Supabase are unavailable
 const fallbackData = {
@@ -23,6 +24,7 @@ export default function CommissarPanel() {
   const [isSaving, setIsSaving] = useState(false)
   const [currentWeek, setCurrentWeek] = useState(1)
   const [analysisContext, setAnalysisContext] = useState('weekly_recap')
+  const [selectedPersona, setSelectedPersona] = useState('commissar')
   
   // Configuration - you can change this league ID here
   const LEAGUE_ID = '1249366852329549824'
@@ -90,8 +92,8 @@ export default function CommissarPanel() {
         }
       }
       
-      // Generate commissar analysis
-      const commissarAnalysis = await generateCommissarAnalysis(leagueData, analysisContext)
+      // Generate analysis with selected persona
+      const commissarAnalysis = await generateCommissarAnalysis(leagueData, analysisContext, selectedPersona)
       
       if (!commissarAnalysis || commissarAnalysis.trim() === '') {
         throw new Error('OpenAI returned an empty response')
@@ -171,20 +173,44 @@ export default function CommissarPanel() {
 
       {/* Main Content */}
       <main className="max-w-4xl mx-auto px-6 py-8">
-        {/* Analysis Type Selector */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-terminal-fg/80 mb-2">
-            Analysis Type:
-          </label>
-          <select
-            value={analysisContext}
-            onChange={(e) => setAnalysisContext(e.target.value)}
-            className="bg-terminal-bg border border-terminal-border text-terminal-fg px-3 py-2 rounded-md font-mono text-sm focus:outline-none focus:border-terminal-accent"
-          >
-            <option value="weekly_projections">⚔️ Weekly Matchup Projections</option>
-            <option value="weekly_recap">🏛️ Weekly Recap</option>
-            <option value="season_kickoff">🚀 Season Kickoff</option>
-          </select>
+        {/* Analysis Type and Persona Selectors */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          {/* Analysis Type Selector */}
+          <div>
+            <label className="block text-sm font-medium text-terminal-fg/80 mb-2">
+              Analysis Type:
+            </label>
+            <select
+              value={analysisContext}
+              onChange={(e) => setAnalysisContext(e.target.value)}
+              className="w-full bg-terminal-bg border border-terminal-border text-terminal-fg px-3 py-2 rounded-md font-mono text-sm focus:outline-none focus:border-terminal-accent"
+            >
+              <option value="weekly_projections">⚔️ Weekly Matchup Projections</option>
+              <option value="weekly_recap">🏛️ Weekly Recap</option>
+              <option value="season_kickoff">🚀 Season Kickoff</option>
+            </select>
+          </div>
+
+          {/* Persona Selector */}
+          <div>
+            <label className="block text-sm font-medium text-terminal-fg/80 mb-2">
+              Analysis Persona:
+            </label>
+            <select
+              value={selectedPersona}
+              onChange={(e) => setSelectedPersona(e.target.value)}
+              className="w-full bg-terminal-bg border border-terminal-border text-terminal-fg px-3 py-2 rounded-md font-mono text-sm focus:outline-none focus:border-terminal-accent"
+            >
+              {Object.values(personas).map(persona => (
+                <option key={persona.id} value={persona.id}>
+                  {persona.emoji} {persona.name}
+                </option>
+              ))}
+            </select>
+            <p className="text-xs text-terminal-fg/60 mt-1">
+              {personas[selectedPersona]?.description}
+            </p>
+          </div>
         </div>
 
         {/* Generate Button */}
@@ -204,10 +230,10 @@ export default function CommissarPanel() {
             {isLoading ? (
               <span className="flex items-center gap-2">
                 <div className="w-4 h-4 border-2 border-terminal-accent/30 border-t-terminal-accent rounded-full animate-spin"></div>
-                Fetching fresh data & generating {getContextLabel(analysisContext)}...
+                Fetching fresh data & generating {getContextLabel(analysisContext)} with {personas[selectedPersona]?.name}...
               </span>
             ) : (
-              `🚨 Generate ${getContextLabel(analysisContext)}`
+              `${personas[selectedPersona]?.emoji} Generate ${getContextLabel(analysisContext)}`
             )}
           </button>
           
@@ -249,7 +275,7 @@ export default function CommissarPanel() {
           <div className="bg-terminal-bg border border-terminal-border rounded-md overflow-hidden mb-6">
             <div className="px-4 py-3 bg-terminal-border/30 border-b border-terminal-border flex justify-between items-center">
               <h2 className="text-sm font-medium text-terminal-fg/80">
-                📋 COMMISSAR'S {analysisContext.toUpperCase()} REPORT
+                {personas[selectedPersona]?.emoji} {personas[selectedPersona]?.name.toUpperCase()}'S {analysisContext.toUpperCase()} REPORT
               </h2>
               <div className="flex gap-2">
                 <button
@@ -331,10 +357,13 @@ export default function CommissarPanel() {
         {!analysis && !isLoading && (
           <div className="text-center py-12 text-terminal-fg/60">
             <p className="font-mono text-sm">
-              Select an analysis type and click the button above to generate your fantasy football analysis
+              Select an analysis type and persona, then click the button above to generate your fantasy football analysis
             </p>
             <p className="font-mono text-xs mt-2">
-              The Commissar will fetch fresh data from Sleeper API and deliver a satirical report
+              Choose from 9 different analysis personalities, each with their own unique style and perspective
+            </p>
+            <p className="font-mono text-xs mt-1">
+              Fresh data is fetched from Sleeper API for real-time analysis
             </p>
             <p className="font-mono text-xs mt-1">
               Weekly recaps analyze the previous week's completed games

@@ -1,20 +1,22 @@
 {
-  "name": "fantasy-football-commissar",
+  "name": "fantasy-weekly-updates",
   "version": "1.0.0",
-  "description": "AI-powered fantasy football analysis with satirical Commissar commentary",
+  "description": "Dynamic fantasy football analysis platform with multiple AI personas and real-time Sleeper API integration",
   "type": "module",
-  "main": "scripts/fetch_sleeper_week.js",
+  "main": "backend/api/server.js",
   "scripts": {
     "fetch": "node scripts/fetch_sleeper_week.js",
     "fetch-recap": "node scripts/fetch_sleeper_week.js --mode recap",
     "fetch-projections": "node scripts/fetch_sleeper_week.js --mode projections",
-    "generate": "node generate-recap.js",
-    "generate-kickoff": "node generate-recap.js season_kickoff",
+    "generate": "node scripts/generate-recap.js",
+    "generate-kickoff": "node scripts/generate-recap.js season_kickoff",
     "update-names": "node scripts/update_team_names.js",
     "check-names": "node scripts/check_team_names.js",
+    "server": "node backend/api/server.js",
     "dev": "cd frontend && npm run dev",
     "build": "cd frontend && npm run build",
-    "preview": "cd frontend && npm run preview"
+    "preview": "cd frontend && npm run preview",
+    "start": "npm run server & npm run dev"
   },
   "keywords": [
     "fantasy-football",
@@ -29,7 +31,9 @@
   "license": "PROPRIETARY",
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",
-    "dotenv": "^16.3.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0",
     "node-cron": "^3.0.3",
     "openai": "^4.20.1"
   },

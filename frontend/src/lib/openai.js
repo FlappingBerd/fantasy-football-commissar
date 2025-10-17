@@ -1,19 +1,22 @@
-import OpenAI from 'openai'
-import { getPromptForContext } from '../../../prompts.js'
+import { getPromptForContext } from '../../../backend/config/prompts.js'
+import { getPersonaPrompt } from './personas.js'
 
-// Initialize OpenAI client
-const openai = new OpenAI({
-  apiKey: import.meta.env.VITE_OPENAI_API_KEY || 'your_openai_api_key_here',
-  dangerouslyAllowBrowser: true // Note: In production, use a backend proxy
-})
+// Use proxy server to avoid CORS issues
+const PROXY_URL = 'http://localhost:3001'
 
 
 // Prompts are now imported from the shared prompts.js file
 
-export async function generateCommissarAnalysis(leagueData, context = 'weekly') {
+export async function generateCommissarAnalysis(leagueData, context = 'weekly', personaId = 'commissar') {
   try {
     // Check if API key is set
     const apiKey = import.meta.env.VITE_OPENAI_API_KEY
+    console.log('OpenAI API Key check:', {
+      hasKey: !!apiKey,
+      keyLength: apiKey ? apiKey.length : 0,
+      keyStart: apiKey ? apiKey.substring(0, 10) + '...' : 'none'
+    })
+    
     if (!apiKey || apiKey === 'your_openai_api_key_here') {
       throw new Error('OpenAI API key not configured. Please check your .env file.')
     }
@@ -23,7 +26,8 @@ export async function generateCommissarAnalysis(leagueData, context = 'weekly') 
       throw new Error('No league data provided')
     }
 
-    const prompt = getPromptForContext(context)
+    // Get persona-specific prompt
+    const prompt = getPersonaPrompt(personaId, context)
 
     // Optimize data to reduce token usage with proper error handling
     const optimizedData = {
@@ -89,34 +93,55 @@ export async function generateCommissarAnalysis(leagueData, context = 'weekly') 
       }
     }
 
-    const completion = await openai.chat.completions.create({
-      model: "gpt-4o",  // More powerful model with higher token limits
-      messages: [
-        {
-          role: "system",
-          content: prompt
-        },
-        {
-          role: "user",
-          content: `Generate a comprehensive ${context} fantasy football analysis in the style of the Commissar of Competitive Balance. Analyze ALL teams equally and provide detailed coverage. 
+    // Use proxy server to avoid CORS issues
+    const response = await fetch(`${PROXY_URL}/api/openai/chat`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        model: "gpt-4o",
+        messages: [
+          {
+            role: "system",
+            content: prompt
+          },
+          {
+            role: "user",
+            content: `Generate a comprehensive ${context} fantasy football analysis in the style of the Commissar of Competitive Balance. Analyze ALL teams equally and provide detailed coverage. 
 
 IMPORTANT: Use ONLY the actual player names from the data provided. Do NOT use placeholder text like [Player Name], [Star Player], or [Emerging Talent].
 
 Here is the optimized league data:\n\n${JSON.stringify(optimizedData, null, 2)}`
-        }
-      ],
-      temperature: 0.9,
-      max_tokens: context === 'season_kickoff' ? 4000 : 8000  // Adjusted for gpt-4o capabilities
+          }
+        ],
+        temperature: 0.9,
+        max_tokens: context === 'season_kickoff' ? 4000 : 8000
+      })
     })
 
-    const response = completion.choices[0]?.message?.content
-    if (!response) {
+    if (!response.ok) {
+      const errorData = await response.json()
+      throw new Error(errorData.message || `HTTP ${response.status}: ${response.statusText}`)
+    }
+
+    const data = await response.json()
+    const response_text = data.response
+    if (!response_text) {
       throw new Error('No response received from OpenAI')
     }
 
-    return response
+    return response_text
 
   } catch (error) {
+    console.error('OpenAI API Error:', error)
+    console.error('Error details:', {
+      message: error.message,
+      status: error.status,
+      code: error.code,
+      type: error.type
+    })
+    
     // Provide a fallback response if OpenAI fails
     if (error.message.includes('API key')) {
       throw new Error('OpenAI API key not configured. Please check your .env file.')

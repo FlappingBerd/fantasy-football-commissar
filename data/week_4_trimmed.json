@@ -1,0 +1,751 @@
+{
+  "week": "4",
+  "week_type": "completed",
+  "league": {
+    "name": "Internet Football League",
+    "season": "2025"
+  },
+  "historical_weeks": {
+    "week_1": {
+      "week": "1",
+      "rosters": [
+        {
+          "team_name": "Call em Stalin",
+          "real_name": "FlappingBird",
+          "wins": 3,
+          "losses": 1,
+          "fpts": 425.2,
+          "playoff_position": "playoff"
+        },
+        {
+          "team_name": "Satoshi Nakamoto",
+          "real_name": "mLeggett",
+          "wins": 3,
+          "losses": 1,
+          "fpts": 398.7,
+          "playoff_position": "playoff"
+        },
+        {
+          "team_name": "GibbsMeDatGyatt",
+          "real_name": "WhatayaZay",
+          "wins": 3,
+          "losses": 1,
+          "fpts": 385.4,
+          "playoff_position": "playoff"
+        },
+        {
+          "team_name": "rguerra19",
+          "real_name": "rguerra19",
+          "wins": 2,
+          "losses": 2,
+          "fpts": 365.8,
+          "playoff_position": "playoff"
+        },
+        {
+          "team_name": "Schafer2121",
+          "real_name": "Schafer2121",
+          "wins": 2,
+          "losses": 2,
+          "fpts": 342.1,
+          "playoff_position": "playoff"
+        },
+        {
+          "team_name": "leevus",
+          "real_name": "leevus",
+          "wins": 2,
+          "losses": 2,
+          "fpts": 318.9,
+          "playoff_position": "bubble"
+        },
+        {
+          "team_name": "Shake Zula The Mic Rula",
+          "real_name": "davis218",
+          "wins": 2,
+          "losses": 2,
+          "fpts": 295.6,
+          "playoff_position": "bubble"
+        },
+        {
+          "team_name": "Houthi PC small group",
+          "real_name": "natezeff",
+          "wins": 1,
+          "losses": 3,
+          "fpts": 278.3,
+          "playoff_position": "bubble"
+        },
+        {
+          "team_name": "R U Freddie 4 sum 🏈",
+          "real_name": "Freddie4sumball",
+          "wins": 1,
+          "losses": 3,
+          "fpts": 265.7,
+          "playoff_position": "bubble"
+        },
+        {
+          "team_name": "Betsy's_Pool",
+          "real_name": "bdvabch",
+          "wins": 1,
+          "losses": 3,
+          "fpts": 248.9,
+          "playoff_position": "bubble"
+        },
+        {
+          "team_name": "Team Donny Does Damage",
+          "real_name": "RenPetschke",
+          "wins": 0,
+          "losses": 4,
+          "fpts": 312.8,
+          "playoff_position": "out"
+        },
+        {
+          "team_name": "Ana2187",
+          "real_name": "Ana2187",
+          "wins": 0,
+          "losses": 2,
+          "fpts": 254.4,
+          "playoff_position": "out"
+        },
+        {
+          "team_name": "Ricky's Raging Kodiaks ",
+          "real_name": "Kodiak",
+          "wins": 0,
+          "losses": 2,
+          "fpts": 246.9,
+          "playoff_position": "out"
+        },
+        {
+          "team_name": "The Better Andrews",
+          "real_name": "hannygeorge",
+          "wins": 0,
+          "losses": 2,
+          "fpts": 233.4,
+          "playoff_position": "out"
+        }
+      ],
+      "matchups": [
+        {
+          "team_name_home": "R U Freddie 4 sum 🏈",
+          "team_name_away": "rguerra19",
+          "real_name_home": "Freddie4sumball",
+          "real_name_away": "rguerra19",
+          "points_home": 75.9,
+          "points_away": 113.3
+        },
+        {
+          "team_name_home": "Shake Zula The Mic Rula",
+          "team_name_away": "Ana2187",
+          "real_name_home": "davis218",
+          "real_name_away": "Ana2187",
+          "points_home": 139.7,
+          "points_away": 122.9
+        },
+        {
+          "team_name_home": "GibbsMeDatGyatt",
+          "team_name_away": "Schafer2121",
+          "real_name_home": "WhatayaZay",
+          "real_name_away": "Schafer2121",
+          "points_home": 131.3,
+          "points_away": 165.6
+        },
+        {
+          "team_name_home": "Satoshi Nakamoto",
+          "team_name_away": "Betsy's_Pool",
+          "real_name_home": "mLeggett",
+          "real_name_away": "bdvabch",
+          "points_home": 127.3,
+          "points_away": 84.3
+        },
+        {
+          "team_name_home": "Houthi PC small group",
+          "team_name_away": "Team Donny Does Damage",
+          "real_name_home": "natezeff",
+          "real_name_away": "RenPetschke",
+          "points_home": 129.8,
+          "points_away": 128.5
+        },
+        {
+          "team_name_home": "Call em Stalin",
+          "team_name_away": "The Better Andrews",
+          "real_name_home": "FlappingBird",
+          "real_name_away": "hannygeorge",
+          "points_home": 141.8,
+          "points_away": 114.7
+        },
+        {
+          "team_name_home": "Ricky's Raging Kodiaks ",
+          "team_name_away": "leevus",
+          "real_name_home": "Kodiak",
+          "real_name_away": "leevus",
+          "points_home": 100,
+          "points_away": 130.7
+        }
+      ],
+      "stats": {
+        "top_score": {
+          "manager": "@Schafer2121",
+          "real_name": "Schafer2121",
+          "team_name": "Schafer2121",
+          "points": 165.6
+        },
+        "power_rankings": [
+          {
+            "rank": 1,
+            "manager": "@FlappingBird",
+            "team_name": "Call em Stalin",
+            "real_name": "Unknown Team",
+            "elo": 1579,
+            "wins": 2,
+            "losses": 0,
+            "ties": 0,
+            "fpts": 328.8,
+            "win_percentage": 100,
+            "points_per_game": 164.4,
+            "playoff_position": "playoff"
+          },
+          {
+            "rank": 2,
+            "manager": "@rguerra19",
+            "team_name": "rguerra19",
+            "real_name": "Unknown Team",
+            "elo": 1554,
+            "wins": 2,
+            "losses": 0,
+            "ties": 0,
+            "fpts": 279.5,
+            "win_percentage": 100,
+            "points_per_game": 139.8,
+            "playoff_position": "playoff"
+          },
+          {
+            "rank": 3,
+            "manager": "@mLeggett",
+            "team_name": "Satoshi Nakamoto",
+            "real_name": "Unknown Team",
+            "elo": 1546,
+            "wins": 2,
+            "losses": 0,
+            "ties": 0,
+            "fpts": 264.4,
+            "win_percentage": 100,
+            "points_per_game": 132.2,
+            "playoff_position": "playoff"
+          },
+          {
+            "rank": 4,
+            "manager": "@leevus",
+            "team_name": "leevus",
+            "real_name": "Unknown Team",
+            "elo": 1538,
+            "wins": 2,
+            "losses": 0,
+            "ties": 0,
+            "fpts": 247.8,
+            "win_percentage": 100,
+            "points_per_game": 123.9,
+            "playoff_position": "playoff"
+          },
+          {
+            "rank": 5,
+            "manager": "@WhatayaZay",
+            "team_name": "GibbsMeDatGyatt",
+            "real_name": "Unknown Team",
+            "elo": 1521,
+            "wins": 1,
+            "losses": 1,
+            "ties": 0,
+            "fpts": 293.9,
+            "win_percentage": 50,
+            "points_per_game": 146.9,
+            "playoff_position": "playoff"
+          }
+        ]
+      }
+    }
+  },
+  "users": [
+    {
+      "user_id": "453989542328791040",
+      "real_name": "FlappingBird",
+      "team_name": "Call em Stalin"
+    },
+    {
+      "user_id": "453991667477770240",
+      "real_name": "Kodiak",
+      "team_name": "Ricky's Raging Kodiaks "
+    },
+    {
+      "user_id": "453991819093471232",
+      "real_name": "davis218",
+      "team_name": "Shake Zula The Mic Rula"
+    },
+    {
+      "user_id": "453996359956033536",
+      "real_name": "hannygeorge",
+      "team_name": "The Better Andrews"
+    },
+    {
+      "user_id": "454008817642893312",
+      "real_name": "mLeggett",
+      "team_name": "Satoshi Nakamoto"
+    },
+    {
+      "user_id": "463903387998482432",
+      "real_name": "WhatayaZay",
+      "team_name": "GibbsMeDatGyatt"
+    },
+    {
+      "user_id": "731359615752744960",
+      "real_name": "natezeff",
+      "team_name": "Houthi PC small group"
+    },
+    {
+      "user_id": "733010637621428224",
+      "real_name": "bdvabch",
+      "team_name": "Betsy's_Pool"
+    },
+    {
+      "user_id": "733525009175273472",
+      "real_name": "Freddie4sumball",
+      "team_name": "R U Freddie 4 sum 🏈"
+    },
+    {
+      "user_id": "734131392270741504",
+      "real_name": "Schafer2121",
+      "team_name": "Schafer2121"
+    },
+    {
+      "user_id": "852591286824316928",
+      "real_name": "rguerra19",
+      "team_name": "rguerra19"
+    },
+    {
+      "user_id": "996276793017540608",
+      "real_name": "Ana2187",
+      "team_name": "Ana2187"
+    },
+    {
+      "user_id": "1259690619337457664",
+      "real_name": "leevus",
+      "team_name": "leevus"
+    },
+    {
+      "user_id": "1260004968778178560",
+      "real_name": "RenPetschke",
+      "team_name": "Team Donny Does Damage"
+    }
+  ],
+  "rosters": [
+    {
+      "team_name": "Call em Stalin",
+      "real_name": "FlappingBird",
+      "wins": 3,
+      "losses": 1,
+      "fpts": 425.2,
+      "playoff_position": "playoff"
+    },
+    {
+      "team_name": "Satoshi Nakamoto",
+      "real_name": "mLeggett",
+      "wins": 3,
+      "losses": 1,
+      "fpts": 398.7,
+      "playoff_position": "playoff"
+    },
+    {
+      "team_name": "GibbsMeDatGyatt",
+      "real_name": "WhatayaZay",
+      "wins": 3,
+      "losses": 1,
+      "fpts": 385.4,
+      "playoff_position": "playoff"
+    },
+    {
+      "team_name": "rguerra19",
+      "real_name": "rguerra19",
+      "wins": 2,
+      "losses": 2,
+      "fpts": 365.8,
+      "playoff_position": "playoff"
+    },
+    {
+      "team_name": "Schafer2121",
+      "real_name": "Schafer2121",
+      "wins": 2,
+      "losses": 2,
+      "fpts": 342.1,
+      "playoff_position": "playoff"
+    },
+    {
+      "team_name": "leevus",
+      "real_name": "leevus",
+      "wins": 2,
+      "losses": 2,
+      "fpts": 318.9,
+      "playoff_position": "bubble"
+    },
+    {
+      "team_name": "Shake Zula The Mic Rula",
+      "real_name": "davis218",
+      "wins": 2,
+      "losses": 2,
+      "fpts": 295.6,
+      "playoff_position": "bubble"
+    },
+    {
+      "team_name": "Houthi PC small group",
+      "real_name": "natezeff",
+      "wins": 1,
+      "losses": 3,
+      "fpts": 278.3,
+      "playoff_position": "bubble"
+    },
+    {
+      "team_name": "R U Freddie 4 sum 🏈",
+      "real_name": "Freddie4sumball",
+      "wins": 1,
+      "losses": 3,
+      "fpts": 265.7,
+      "playoff_position": "bubble"
+    },
+    {
+      "team_name": "Betsy's_Pool",
+      "real_name": "bdvabch",
+      "wins": 1,
+      "losses": 3,
+      "fpts": 248.9,
+      "playoff_position": "bubble"
+    },
+    {
+      "team_name": "Team Donny Does Damage",
+      "real_name": "RenPetschke",
+      "wins": 0,
+      "losses": 4,
+      "fpts": 312.8,
+      "playoff_position": "out"
+    },
+    {
+      "team_name": "Ana2187",
+      "real_name": "Ana2187",
+      "wins": 0,
+      "losses": 2,
+      "fpts": 254.4,
+      "playoff_position": "out"
+    },
+    {
+      "team_name": "Ricky's Raging Kodiaks ",
+      "real_name": "Kodiak",
+      "wins": 0,
+      "losses": 2,
+      "fpts": 246.9,
+      "playoff_position": "out"
+    },
+    {
+      "team_name": "The Better Andrews",
+      "real_name": "hannygeorge",
+      "wins": 0,
+      "losses": 2,
+      "fpts": 233.4,
+      "playoff_position": "out"
+    }
+  ],
+  "matchups": [
+    {
+      "team_name_home": "Call em Stalin",
+      "team_name_away": "Satoshi Nakamoto",
+      "real_name_home": "FlappingBird",
+      "real_name_away": "mLeggett",
+      "points_home": 142.8,
+      "points_away": 138.4,
+      "proj_home": 95,
+      "proj_away": 95,
+      "margin": 4.4,
+      "is_key_matchup": true,
+      "matchup_type": "close",
+      "prediction": "FlappingBird edged out mLeggett in a nail-biter, with Call em Stalin defeating Satoshi Nakamoto by just 4.4 points!"
+    },
+    {
+      "team_name_home": "GibbsMeDatGyatt",
+      "team_name_away": "rguerra19",
+      "real_name_home": "WhatayaZay",
+      "real_name_away": "rguerra19",
+      "points_home": 156.7,
+      "points_away": 134.2,
+      "proj_home": 95,
+      "proj_away": 95,
+      "margin": 22.5,
+      "is_key_matchup": true,
+      "matchup_type": "blowout",
+      "prediction": "WhatayaZay dominated rguerra19 with GibbsMeDatGyatt crushing rguerra19 by 22.5 points! A decisive victory!"
+    },
+    {
+      "team_name_home": "Schafer2121",
+      "team_name_away": "leevus",
+      "real_name_home": "Schafer2121",
+      "real_name_away": "leevus",
+      "points_home": 128.9,
+      "points_away": 125.3,
+      "proj_home": 95,
+      "proj_away": 95,
+      "margin": 3.6,
+      "is_key_matchup": false,
+      "matchup_type": "close",
+      "prediction": "Schafer2121 and leevus battled it out in a close contest, with Schafer2121 edging out leevus by 3.6 points."
+    },
+    {
+      "team_name_home": "Shake Zula The Mic Rula",
+      "team_name_away": "Houthi PC small group",
+      "real_name_home": "davis218",
+      "real_name_away": "natezeff",
+      "points_home": 147.2,
+      "points_away": 133,
+      "proj_home": 90,
+      "proj_away": 90,
+      "margin": 29.6,
+      "is_key_matchup": true,
+      "matchup_type": "blowout",
+      "prediction": "WhatayaZay absolutely DEMOLISHED RenPetschke with GibbsMeDatGyatt crushing Team Donny Does Damage by 29.6 points! This wasn't a game, it was a public execution!"
+    },
+    {
+      "team_name_home": "Satoshi Nakamoto",
+      "team_name_away": "The Better Andrews",
+      "real_name_home": "mLeggett",
+      "real_name_away": "hannygeorge",
+      "points_home": 137.1,
+      "points_away": 118.7,
+      "proj_home": 90,
+      "proj_away": 90,
+      "margin": 18.4,
+      "is_key_matchup": true,
+      "matchup_type": "standard",
+      "prediction": "mLeggett and hannygeorge face off in what should be a competitive battle between Satoshi Nakamoto and The Better Andrews."
+    },
+    {
+      "team_name_home": "Houthi PC small group",
+      "team_name_away": "leevus",
+      "real_name_home": "natezeff",
+      "real_name_away": "leevus",
+      "points_home": 77.9,
+      "points_away": 117.2,
+      "proj_home": 90,
+      "proj_away": 90,
+      "margin": 39.3,
+      "is_key_matchup": true,
+      "matchup_type": "blowout",
+      "prediction": "leevus absolutely DEMOLISHED natezeff with leevus crushing Houthi PC small group by 39.3 points! This wasn't a game, it was a public execution!"
+    },
+    {
+      "team_name_home": "Call em Stalin",
+      "team_name_away": "Ricky's Raging Kodiaks ",
+      "real_name_home": "FlappingBird",
+      "real_name_away": "Kodiak",
+      "points_home": 187.1,
+      "points_away": 146.9,
+      "proj_home": 90,
+      "proj_away": 90,
+      "margin": 40.2,
+      "is_key_matchup": true,
+      "matchup_type": "blowout",
+      "prediction": "FlappingBird absolutely DEMOLISHED Kodiak with Call em Stalin crushing Ricky's Raging Kodiaks  by 40.2 points! This wasn't a game, it was a public execution!"
+    }
+  ],
+  "stats": {
+    "top_score": {
+      "manager": "@FlappingBird",
+      "real_name": "FlappingBird",
+      "team_name": "Call em Stalin",
+      "points": 187.1
+    },
+    "low_score": {
+      "manager": "@natezeff",
+      "real_name": "natezeff",
+      "team_name": "Houthi PC small group",
+      "points": 77.9
+    },
+    "best_manager": {
+      "manager": "@FlappingBird",
+      "real_name": "FlappingBird",
+      "team_name": "Call em Stalin",
+      "points": 187.1
+    },
+    "worst_manager": {
+      "manager": "@Ana2187",
+      "real_name": "Ana2187",
+      "team_name": "Ana2187",
+      "bench_points": 0
+    },
+    "overachiever": null,
+    "underachiever": null,
+    "closest_game": {
+      "teams": [
+        "Shake Zula The Mic Rula",
+        "Betsy's_Pool"
+      ],
+      "managers": [
+        "@davis218",
+        "@bdvabch"
+      ],
+      "real_names": [
+        "davis218",
+        "bdvabch"
+      ],
+      "margin": 3.1
+    },
+    "largest_blowout": {
+      "teams": [
+        "Call em Stalin",
+        "Ricky's Raging Kodiaks "
+      ],
+      "managers": [
+        "@FlappingBird",
+        "@Kodiak"
+      ],
+      "real_names": [
+        "FlappingBird",
+        "Kodiak"
+      ],
+      "margin": 40.1
+    },
+    "power_rankings": [
+      {
+        "rank": 1,
+        "manager": "@FlappingBird",
+        "team_name": "Call em Stalin",
+        "real_name": "Unknown Team",
+        "elo": 1579,
+        "wins": 2,
+        "losses": 0,
+        "ties": 0,
+        "fpts": 328.8,
+        "win_percentage": 100,
+        "points_per_game": 164.4,
+        "playoff_position": "playoff"
+      },
+      {
+        "rank": 2,
+        "manager": "@rguerra19",
+        "team_name": "rguerra19",
+        "real_name": "Unknown Team",
+        "elo": 1554,
+        "wins": 2,
+        "losses": 0,
+        "ties": 0,
+        "fpts": 279.5,
+        "win_percentage": 100,
+        "points_per_game": 139.8,
+        "playoff_position": "playoff"
+      },
+      {
+        "rank": 3,
+        "manager": "@mLeggett",
+        "team_name": "Satoshi Nakamoto",
+        "real_name": "Unknown Team",
+        "elo": 1546,
+        "wins": 2,
+        "losses": 0,
+        "ties": 0,
+        "fpts": 264.4,
+        "win_percentage": 100,
+        "points_per_game": 132.2,
+        "playoff_position": "playoff"
+      },
+      {
+        "rank": 4,
+        "manager": "@leevus",
+        "team_name": "leevus",
+        "real_name": "Unknown Team",
+        "elo": 1538,
+        "wins": 2,
+        "losses": 0,
+        "ties": 0,
+        "fpts": 247.8,
+        "win_percentage": 100,
+        "points_per_game": 123.9,
+        "playoff_position": "playoff"
+      },
+      {
+        "rank": 5,
+        "manager": "@WhatayaZay",
+        "team_name": "GibbsMeDatGyatt",
+        "real_name": "Unknown Team",
+        "elo": 1521,
+        "wins": 1,
+        "losses": 1,
+        "ties": 0,
+        "fpts": 293.9,
+        "win_percentage": 50,
+        "points_per_game": 146.9,
+        "playoff_position": "playoff"
+      },
+      {
+        "rank": 6,
+        "manager": "@Schafer2121",
+        "team_name": "Schafer2121",
+        "real_name": "Unknown Team",
+        "elo": 1508,
+        "wins": 1,
+        "losses": 1,
+        "ties": 0,
+        "fpts": 266.9,
+        "win_percentage": 50,
+        "points_per_game": 133.4,
+        "playoff_position": "playoff"
+      },
+      {
+        "rank": 7,
+        "manager": "@davis218",
+        "team_name": "Shake Zula The Mic Rula",
+        "real_name": "Unknown Team",
+        "elo": 1495,
+        "wins": 1,
+        "losses": 1,
+        "ties": 0,
+        "fpts": 242.4,
+        "win_percentage": 50,
+        "points_per_game": 121.2,
+        "playoff_position": "bubble"
+      },
+      {
+        "rank": 8,
+        "manager": "@natezeff",
+        "team_name": "Houthi PC small group",
+        "real_name": "Unknown Team",
+        "elo": 1478,
+        "wins": 1,
+        "losses": 1,
+        "ties": 0,
+        "fpts": 207.7,
+        "win_percentage": 50,
+        "points_per_game": 103.8,
+        "playoff_position": "bubble"
+      },
+      {
+        "rank": 9,
+        "manager": "@Freddie4sumball",
+        "team_name": "R U Freddie 4 sum 🏈",
+        "real_name": "Unknown Team",
+        "elo": 1475,
+        "wins": 1,
+        "losses": 1,
+        "ties": 0,
+        "fpts": 202.2,
+        "win_percentage": 50,
+        "points_per_game": 101.1,
+        "playoff_position": "bubble"
+      },
+      {
+        "rank": 10,
+        "manager": "@bdvabch",
+        "team_name": "Betsy's_Pool",
+        "real_name": "Unknown Team",
+        "elo": 1469,
+        "wins": 1,
+        "losses": 1,
+        "ties": 0,
+        "fpts": 190.1,
+        "win_percentage": 50,
+        "points_per_game": 95,
+        "playoff_position": "bubble"
+      }
+    ]
+  }
+}
